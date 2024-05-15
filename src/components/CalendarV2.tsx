@@ -28,14 +28,37 @@ const generateCalendar = (year, month) => {
   return calendar;
 };
 
-export const Calendar = ({ selectedDate, onDateClick }) => {
+export const Calendar = ({
+  selectedDate,
+  onDateClick,
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate,
+  onDateRangeSelect,
+}) => {
   const [currentYear, setCurrentYear] = useState(dayjs().year());
   const [currentMonth, setCurrentMonth] = useState(dayjs().month());
 
   const handleDateClick = (day) => {
-    onDateClick(dayjs(`${currentYear}-${currentMonth + 1}-${day}`));
+    if (!startDate || (startDate && endDate)) {
+      setStartDate(day);
+      setEndDate(null);
+    } else if (startDate && !endDate) {
+      if (dayjs(day).isAfter(startDate)) {
+        setEndDate(day);
+      } else {
+        setEndDate(null);
+        setStartDate(day);
+      }
+    }
   };
-
+  const isDateInRange = (date, startMonth, endMonth, startDay, endDay) => {
+    const month = date.month() + 1; // Adding 1 because month() returns 0-indexed month
+    const day = date.date();
+  
+    return month >= startMonth && month <= endMonth && day >= startDay && day <= endDay;
+  };
   const prevMonth = () => {
     setCurrentMonth((prevMonth) => (prevMonth === 0 ? 11 : prevMonth - 1));
     setCurrentYear((prevMonth) =>
@@ -55,7 +78,7 @@ export const Calendar = ({ selectedDate, onDateClick }) => {
   return (
     <>
       <Box>
-        <Button variant="plain" sx={{width:'100%'}}>
+        <Button variant="plain" sx={{ width: "100%" }}>
           {dayjs().year(currentYear).format("YYYY")}
         </Button>
         <Stack direction="row" sx={{ justifyContent: "space-between" }}>
@@ -116,7 +139,18 @@ export const Calendar = ({ selectedDate, onDateClick }) => {
                   <td key={dayIndex}>
                     <Button
                       variant="outlined"
-                      sx={{ width: "100%", px: 1, height: 50, width: 50 }}
+                      sx={{
+                        backgroundColor:
+                          day && day >= startDate && day <= endDate 
+                            ? "primary.solidBg"
+                            : "",
+                       
+                       
+                        px: 1,
+                        height: 50,
+                        width: 50,
+                      }}
+                      onClick={() => day && handleDateClick(day)}
                       disabled={!day}
                     >
                       <Stack
@@ -127,11 +161,17 @@ export const Calendar = ({ selectedDate, onDateClick }) => {
                       >
                         {day && (
                           <>
-                            <Typography level="body-md" sx={{ lineHeight: 1 }}>
+                            <Typography level="body-md" sx={{ lineHeight: 1,  color:   day >= startDate && day <= endDate
+                        ? "#fff"
+                        : "", }}>
                               {day}
                             </Typography>
-                            <Typography level="body-xs" sx={{ fontSize: 9 }}>
-                              123 456
+                            <Typography level="body-xs" sx={{ fontSize: 9,  color:   day >= startDate && day <= endDate
+                        ? "#fff"
+                        : "", }}>
+                              {day >= startDate && day <= endDate
+                                ? "Yis"
+                                : "no"}
                             </Typography>
                           </>
                         )}
@@ -168,6 +208,14 @@ export const DoubleCalendar = () => {
     }
   };
 
+  const handleDateRangeSelect = (date) => {
+    if (!startDate || (startDate && endDate)) {
+      setStartDate(date);
+      setEndDate(null);
+    } else if (startDate && !endDate) {
+      setEndDate(date);
+    }
+  };
   return (
     <div>
       <div style={{ display: "flex" }}>
@@ -175,10 +223,23 @@ export const DoubleCalendar = () => {
           <Calendar
             selectedDate={startDate}
             onDateClick={handleStartDateClick}
+            startDate={startDate}
+            endDate={endDate}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+            onDateRangeSelect={handleDateRangeSelect}
           />
         </div>
         <div style={{ marginLeft: "20px" }}>
-          <Calendar selectedDate={endDate} onDateClick={handleEndDateClick} />
+          <Calendar
+            selectedDate={endDate}
+            onDateClick={handleEndDateClick}
+            startDate={startDate}
+            endDate={endDate}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+            onDateRangeSelect={handleDateRangeSelect}
+          />
         </div>
       </div>
     </div>
