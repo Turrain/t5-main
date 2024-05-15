@@ -35,6 +35,7 @@ import DrawerFilters from "./components/Drawer";
 import DynamicInputs from "./components/DynamicInputs";
 import Component, { SelectBasic, Trgger } from "./components/cm";
 import { DoubleCalendar, Trgger2, Trigger2 } from "./components/CalendarV2";
+import { Trigger4 } from "./components/ChildsDropdownV2";
 
 function App() {
   const [DepartCityId, setDepartCityId] = React.useState(1264);
@@ -91,9 +92,9 @@ function App() {
                 boxShadow: "0 10px 35px 0 rgba(5,16,54,.102)",
               }}
             >
-              <Trgger />
               <Trigger2 />
               <Trigger3 />
+              <Trigger4/>
             </Stack>
           </Box>
         </Stack>
