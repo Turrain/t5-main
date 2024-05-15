@@ -1,13 +1,21 @@
 import React, { useState } from "react";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { Box, Button, IconButton, Stack, Typography } from "@mui/joy";
 import { ArrowLeft, ArrowRight } from "@mui/icons-material";
-
-const daysInMonth = (year, month) => {
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+dayjs.extend(isSameOrAfter);
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+dayjs.extend(isSameOrBefore);
+import "dayjs/locale/ru";
+dayjs.locale("ru");
+import isBetween from "dayjs/plugin/isBetween";
+import { Popover } from "@mui/material";
+dayjs.extend(isBetween);
+const daysInMonth = (year: number, month: number) => {
   return dayjs(`${year}-${month + 1}-01`).daysInMonth();
 };
 
-const generateCalendar = (year, month) => {
+const generateCalendar = (year: number, month: number) => {
   const totalDays = daysInMonth(year, month);
   const firstDay = dayjs(`${year}-${month + 1}-01`).day();
   const calendar = [];
@@ -35,11 +43,19 @@ export const Calendar = ({
   setStartDate,
   endDate,
   setEndDate,
-  onDateRangeSelect,
 }) => {
   const [currentYear, setCurrentYear] = useState(dayjs().year());
   const [currentMonth, setCurrentMonth] = useState(dayjs().month());
+  const [hoverDate, setHoverDate] = useState(null); // State to track hover date
+  const handleMouseEnter = (day) => {
+    if (startDate && !endDate) {
+      setHoverDate(day);
+    }
+  };
 
+  const handleMouseLeave = () => {
+    setHoverDate(null);
+  };
   const handleDateClick = (day) => {
     if (!startDate || (startDate && endDate)) {
       setStartDate(day);
@@ -53,12 +69,7 @@ export const Calendar = ({
       }
     }
   };
-  const isDateInRange = (date, startMonth, endMonth, startDay, endDay) => {
-    const month = date.month() + 1; // Adding 1 because month() returns 0-indexed month
-    const day = date.date();
-  
-    return month >= startMonth && month <= endMonth && day >= startDay && day <= endDay;
-  };
+
   const prevMonth = () => {
     setCurrentMonth((prevMonth) => (prevMonth === 0 ? 11 : prevMonth - 1));
     setCurrentYear((prevMonth) =>
@@ -78,15 +89,19 @@ export const Calendar = ({
   return (
     <>
       <Box>
-        <Button variant="plain" sx={{ width: "100%" }}>
-          {dayjs().year(currentYear).format("YYYY")}
-        </Button>
         <Stack direction="row" sx={{ justifyContent: "space-between" }}>
           <IconButton onClick={prevMonth}>
             <ArrowLeft />
           </IconButton>
           <Button variant="plain">
-            {dayjs().month(currentMonth).format("MMMM")}
+            <Stack direction="row" spacing={1}>
+              <Typography level="body-sm">
+                {dayjs().month(currentMonth).format("MMMM").toUpperCase()}
+              </Typography>
+              <Typography level="body-sm">
+                {dayjs().year(currentYear).format("YYYY")}
+              </Typography>
+            </Stack>
           </Button>
           <IconButton onClick={nextMonth}>
             <ArrowRight />
@@ -96,38 +111,38 @@ export const Calendar = ({
           <thead>
             <tr>
               <th>
-                <Typography level="body-md" color="primary">
-                  Sun
+                <Typography level="body-sm" fontWeight="400" color="danger">
+                  Вс
                 </Typography>
               </th>
               <th>
-                <Typography level="body-md" color="primary">
-                  Mon
+                <Typography level="body-sm" fontWeight="400" color="primary">
+                  Пн
                 </Typography>
               </th>
               <th>
-                <Typography level="body-md" color="primary">
-                  Tue
+                <Typography level="body-sm" fontWeight="400" color="primary">
+                  Вт
                 </Typography>
               </th>
               <th>
-                <Typography level="body-md" color="primary">
-                  Wed
+                <Typography level="body-sm" fontWeight="400" color="primary">
+                  Ср
                 </Typography>
               </th>
               <th>
-                <Typography level="body-md" color="primary">
-                  Thu
+                <Typography level="body-sm" fontWeight="400" color="primary">
+                  Чт
                 </Typography>
               </th>
               <th>
-                <Typography level="body-md" color="primary">
-                  Fri
+                <Typography level="body-sm" fontWeight="400" color="primary">
+                  Пт
                 </Typography>
               </th>
               <th>
-                <Typography level="body-md" color="primary">
-                  Sat
+                <Typography level="body-sm" fontWeight="400" color="danger">
+                  Сб
                 </Typography>
               </th>
             </tr>
@@ -135,50 +150,82 @@ export const Calendar = ({
           <tbody>
             {calendarRows.map((week, weekIndex) => (
               <tr key={weekIndex}>
-                {week.map((day, dayIndex) => (
-                  <td key={dayIndex}>
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        backgroundColor:
-                          day && day >= startDate && day <= endDate 
-                            ? "primary.solidBg"
-                            : "",
-                       
-                       
-                        px: 1,
-                        height: 50,
-                        width: 50,
-                      }}
-                      onClick={() => day && handleDateClick(day)}
-                      disabled={!day}
-                    >
-                      <Stack
+                {week.map((day, dayIndex) => {
+                  const fullDate = dayjs(
+                    `${currentYear}-${currentMonth + 1}-${day}`
+                  ).format("YYYY-MM-DD");
+                  console.log(
+                    fullDate,
+                    dayjs().format("YYYY-MM-DD"),
+                    fullDate == dayjs().format("YYYY-MM-DD")
+                  );
+                  const isSelected =
+                    day &&
+                    startDate &&
+                    endDate &&
+                    dayjs(fullDate).isSameOrAfter(startDate) &&
+                    dayjs(fullDate).isSameOrBefore(endDate);
+                  const isHovering =
+                    startDate &&
+                    !endDate &&
+                    hoverDate &&
+                    dayjs(fullDate).isBetween(startDate, hoverDate, null, "[]");
+
+                  const isPrevious = 
+                    dayjs(fullDate).isSameOrBefore(dayjs().add(-1,'day'))
+                  return (
+                    <td key={dayIndex}>
+                      <Button
+                        variant={isSelected ? "solid" : "outlined"}
                         sx={{
-                          justifyContent: "center",
-                          alignItems: "center",
+                          backgroundColor:
+                            isHovering && day ? "primary.plainActiveBg" : "",
+                          outline:
+                            fullDate == dayjs().format("YYYY-MM-DD")
+                              ? "2px solid red"
+                              : "",
+                          px: 1,
+                          height: 40,
+                          width: 40,
                         }}
+                        onClick={() => day && handleDateClick(fullDate)}
+                        disabled={!day || isPrevious}
+                        onMouseEnter={() => handleMouseEnter(fullDate)}
                       >
-                        {day && (
-                          <>
-                            <Typography level="body-md" sx={{ lineHeight: 1,  color:   day >= startDate && day <= endDate
-                        ? "#fff"
-                        : "", }}>
-                              {day}
-                            </Typography>
-                            <Typography level="body-xs" sx={{ fontSize: 9,  color:   day >= startDate && day <= endDate
-                        ? "#fff"
-                        : "", }}>
-                              {day >= startDate && day <= endDate
-                                ? "Yis"
-                                : "no"}
-                            </Typography>
-                          </>
-                        )}
-                      </Stack>
-                    </Button>
-                  </td>
-                ))}
+                        <Stack
+                          sx={{
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          {day && (
+                            <>
+                              <Typography
+                                level="body-sm"
+                                sx={{
+                                  lineHeight: 1,
+                                  color: isSelected ? "#fff" : "",
+                                  textDecoration: isPrevious ? "line-through" : ""
+                                }}
+                              >
+                                {day}
+                              </Typography>
+                              <Typography
+                                level="body-xs"
+                                sx={{
+                                  fontSize: 9,
+                                  color: isSelected ? "#fff" : "",
+                                }}
+                              >
+                                {isSelected ? "Yes" : "No"}
+                              </Typography>
+                            </>
+                          )}
+                        </Stack>
+                      </Button>
+                    </td>
+                  );
+                })}
               </tr>
             ))}
           </tbody>
@@ -189,17 +236,18 @@ export const Calendar = ({
 };
 
 export const DoubleCalendar = () => {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = useState<Dayjs | null>(dayjs());
+  const [endDate, setEndDate] = useState<Dayjs | null>(dayjs().add(7, "day"));
 
-  const handleStartDateClick = (date) => {
+  const handleStartDateClick = (date: Dayjs) => {
     setStartDate(date);
+
     if (endDate && date.isAfter(endDate)) {
       setEndDate(null);
     }
   };
 
-  const handleEndDateClick = (date) => {
+  const handleEndDateClick = (date: Dayjs) => {
     if (!startDate || date.isAfter(startDate)) {
       setEndDate(date);
     } else {
@@ -208,16 +256,12 @@ export const DoubleCalendar = () => {
     }
   };
 
-  const handleDateRangeSelect = (date) => {
-    if (!startDate || (startDate && endDate)) {
-      setStartDate(date);
-      setEndDate(null);
-    } else if (startDate && !endDate) {
-      setEndDate(date);
-    }
-  };
+  React.useEffect(() => {
+    console.log(startDate, endDate);
+  }, [startDate, endDate]);
+
   return (
-    <div>
+    <Box>
       <div style={{ display: "flex" }}>
         <div>
           <Calendar
@@ -227,7 +271,6 @@ export const DoubleCalendar = () => {
             endDate={endDate}
             setStartDate={setStartDate}
             setEndDate={setEndDate}
-            onDateRangeSelect={handleDateRangeSelect}
           />
         </div>
         <div style={{ marginLeft: "20px" }}>
@@ -238,10 +281,59 @@ export const DoubleCalendar = () => {
             endDate={endDate}
             setStartDate={setStartDate}
             setEndDate={setEndDate}
-            onDateRangeSelect={handleDateRangeSelect}
           />
         </div>
       </div>
-    </div>
+    </Box>
   );
 };
+export function Trigger2() {
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
+  return (
+    <>
+      <Button
+        aria-describedby={id}
+        sx={{ maxWidth: 150 }}
+        variant="outlined"
+        onClick={handleClick}
+      >
+        16 мая - 22 мая
+      </Button>
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        slotProps={{
+          paper: {
+            sx: {
+              boxShadow: "0 10px 35px 0 rgba(5,16,54,.102)",
+              borderRadius: "20px",
+              p: 1,
+            },
+          },
+        }}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+      >
+        <DoubleCalendar />
+      </Popover>
+    </>
+  );
+}

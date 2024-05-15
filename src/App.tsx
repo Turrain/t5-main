@@ -29,20 +29,21 @@ import {
 import { CountrySelectV3 } from "./components/CountryDropdownV3";
 import { CitySelectV3 } from "./components/CityDropdownV3";
 import { CountryCitySelectV3 } from "./components/CountryCityDropdown";
-import { NightsDropdown } from "./components/NightsDropdown";
+import { NightsDropdown, Trigger3 } from "./components/NightsDropdown";
 import { Button } from "@mui/joy";
 import DrawerFilters from "./components/Drawer";
 import DynamicInputs from "./components/DynamicInputs";
 import Component, { SelectBasic, Trgger } from "./components/cm";
-import { DoubleCalendar } from "./components/CalendarV2";
-
-
+import { DoubleCalendar, Trgger2, Trigger2 } from "./components/CalendarV2";
 
 function App() {
   const [DepartCityId, setDepartCityId] = React.useState(1264);
   const [CountryId, setCountryId] = React.useState(0);
   const [open, setOpen] = React.useState(false);
-  const [dateRange, setDateRange] = React.useState({ startDate: new Date(), endDate: new Date() });
+  const [dateRange, setDateRange] = React.useState({
+    startDate: new Date(),
+    endDate: new Date(),
+  });
 
   return (
     <>
@@ -51,14 +52,13 @@ function App() {
         sx={{ display: "flex", justifyContent: "center" }}
       >
         <Stack direction="column">
-         
           <Stack
             spacing={{ xs: 1, sm: 2 }}
             direction={{ xs: "column", sm: "row" }}
             divider={<Divider orientation="vertical" flexItem />}
             sx={{
               padding: 2,
-              borderRadius: '20px 20px 0 20px',
+              borderRadius: "20px 20px 0 20px",
               boxShadow: "0 10px 35px 0 rgba(5,16,54,.102)",
             }}
           >
@@ -72,27 +72,28 @@ function App() {
             </Stack>
 
             <CalendarDropdown />
-            
+
             <Button sx={{ minWidth: 100 }} variant="outlined" color="primary">
               Поиск
             </Button>
             {/* <UnstyledSelectRichOptions/>
           <UnstyledSelectRichOptions2/> */}
           </Stack>
-          <Box sx={{width:'100%', display: 'flex', justifyContent:'start'}}>
-            <DrawerFilters/>
+          <Box sx={{ width: "100%", display: "flex", justifyContent: "start" }}>
+            <DrawerFilters />
             <Stack
-      
-            sx={{
-              width: '100%',
-              padding: 2,
-              borderRadius: '0 0 20px 20px',
-              boxShadow: "0 10px 35px 0 rgba(5,16,54,.102)",
-            }}
-          >
-            <Trgger/>
-      
-            <DoubleCalendar/>
+              spacing={2}
+              direction={{ xs: "column", sm: "row" }}
+              sx={{
+                width: "100%",
+                padding: 2,
+                borderRadius: "0 0 20px 20px",
+                boxShadow: "0 10px 35px 0 rgba(5,16,54,.102)",
+              }}
+            >
+              <Trgger />
+              <Trigger2 />
+              <Trigger3 />
             </Stack>
           </Box>
         </Stack>
@@ -102,6 +103,3 @@ function App() {
 }
 
 export default App;
-
-
-
