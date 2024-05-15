@@ -21,3 +21,12 @@ interface Country {
   Rank: number;
   TicketsIncluded: boolean;
 }
+
+interface CountryCity {
+  Id: number;
+  Name: string;
+  Default: boolean;
+  DescriptionUrl: string | null;
+  IsPopular: boolean;
+  ParentId: number | null;
+}

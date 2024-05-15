@@ -6,25 +6,24 @@ import ListItemContent from "@mui/joy/ListItemContent";
 import Typography from "@mui/joy/Typography";
 import fetchCountryData from "./api/fetchCountry";
 import { flagsData } from "./api/flagsData";
-import { Chip, FormControl, FormLabel, Stack } from "@mui/joy";
+import { Chip, Stack } from "@mui/joy";
+import fetchCountryCityData from "./api/fetchCountryCity";
 
-interface CountrySelectV3Props {
-  id: number;
-  onCountrySelect: (cityId: number) => void;
+interface CountryCitySelectV3Props {
+    id: number
 }
 
-export function CountrySelectV3({ id, onCountrySelect }: CountrySelectV3Props) {
-  const [countries, setCountries] = React.useState<Country[]>([]);
+export function CountryCitySelectV3({id}: CountryCitySelectV3Props) {
+  const [countries, setCountries] = React.useState<CountryCity[]>([]);
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const cityData = await fetchCountryData(id);
+      const cityData = await fetchCountryCityData(id);
       if (cityData) {
         const mp = cityData.map((option) => {
           const firstLetter = option.Name[0].toUpperCase();
           return {
             firstLetter: /[0-9]/.test(firstLetter) ? "0-9" : firstLetter,
-            flag: flagsData[option.OriginalName],
             ...option,
           };
         });
@@ -34,54 +33,35 @@ export function CountrySelectV3({ id, onCountrySelect }: CountrySelectV3Props) {
 
     fetchData();
   }, [id]);
-  const handleSelect = (event, value) => {
-    if (value) {
-      onCountrySelect(value.Id); // Assuming 'Id' is the property that holds the city ID
-    }
-  };
   return (
-    <FormControl>
-  {/* <FormLabel>Выберите курорт</FormLabel> */}
-  <Autocomplete
+    <Autocomplete
       id="country-select-demo"
-      
-      placeholder="Выберите страну"
+      placeholder="Выберите курорт"
       slotProps={{
         input: {
           autoComplete: "new-password", // disable autocomplete and autofill
         },
-      }}  
+      }}
       sx={{ width: 300 }}
       options={countries}
       autoHighlight
       variant="plain"
+      multiple={true}
       getOptionLabel={(option) => option.Name}
-      onChange={handleSelect}
       renderOption={(props, option) => (
         <AutocompleteOption {...props}>
-          <ListItemDecorator>
-            <img loading="lazy" width={20} height={14} src={option.flag} />
-          </ListItemDecorator>
+         
           <ListItemContent sx={{ fontSize: "sm" }}>
             <Stack direction="row">
               <Typography level="body-sm" sx={{ flex: 1 }}>
                 {option.Name}
               </Typography>
 
-              <Chip color="primary" size="sm">
-                {option.IsProVisa
-                  ? "Шенген"
-                  : option.IsVisa
-                  ? "Visa"
-                  : "Без Visa"}
-              </Chip>
+        
             </Stack>
           </ListItemContent>
         </AutocompleteOption>
       )}
     />
-
-</FormControl>
-    
   );
 }

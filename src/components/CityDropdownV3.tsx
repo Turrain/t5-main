@@ -44,7 +44,7 @@ export function CitySelectV3({ onCitySelect }: CitySelectV3Props) {
   return (
     <Autocomplete
       id="country-select-demo"
-      placeholder="Choose a country"
+      placeholder="Выберите город"
       slotProps={{
         input: {
           autoComplete: 'new-password', // disable autocomplete and autofill
@@ -55,6 +55,7 @@ export function CitySelectV3({ onCitySelect }: CitySelectV3Props) {
       autoHighlight
       variant='plain'
       onChange={handleSelect}
+      
       getOptionLabel={(option) => option.Name}
       renderOption={(props, option) => (
         <AutocompleteOption {...props}>
