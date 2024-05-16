@@ -99,7 +99,7 @@ export default function ExampleFilterStatusCheckbox() {
             pl: "24px",
             maxHeight: 500,
             overflowY: "auto",
-            overflowX: 'hidden',
+            overflowX: "hidden",
             scrollbarWidth: "thin",
             backgroundColor: "background.level1",
             borderRadius: 8,
@@ -209,31 +209,41 @@ export default function ExampleFilterStatusCheckbox() {
               })}
           </List>
         </Box>
-        <Sheet
-          variant="plain"
-          sx={{
-            borderRadius: "sm",
-            width: 300,
-            maxHeight: 500,
-            overflowY: "auto",
-            overflowX: 'hidden',
-            scrollbarWidth: "thin",
-          }}
-        >
-          <div role="group" aria-labelledby="filter-status">
-            <Box sx={{ p: 0.75 }}>
-              <Input placeholder="Type in here…" variant="soft" />
-            </Box>
-
-            <List>
-              {allHotels.map((e) => (
-                <ListItem variant="plain" sx={{ borderRadius: 8 }}>
-                  <Checkbox size="sm" label={e.Name} color="primary" overlay />
-                </ListItem>
-              ))}
-            </List>
-          </div>
-        </Sheet>
+        <Box>
+          <Box sx={{ p: 0.75, pt: 0 }}>
+            <Stack direction="row">
+            <Input placeholder="Type in here…" variant="soft" size="sm" sx={{borderRadius: 0}} />
+            <Input placeholder="Type in here…" variant="soft" size="sm" sx={{borderRadius: 0}} />
+            </Stack>
+            <Input placeholder="Type in here…" variant="soft" size="sm" />
+          </Box>
+          <Sheet
+            variant="plain"
+            sx={{
+              borderRadius: "sm",
+             
+              maxHeight: 500 - 70,
+              overflowY: "auto",
+              overflowX: "hidden",
+              scrollbarWidth: "thin",
+            }}
+          >
+            <div role="group" aria-labelledby="filter-status">
+              <List>
+                {allHotels.map((e) => (
+                  <ListItem variant="plain" sx={{ borderRadius: 8 }}>
+                    <Checkbox
+                      size="sm"
+                      label={e.Name}
+                      color="primary"
+                      overlay
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            </div>
+          </Sheet>
+        </Box>
       </Stack>
     </>
   );
