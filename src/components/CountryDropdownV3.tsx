@@ -14,6 +14,8 @@ interface CountrySelectV3Props {
 }
 
 export function CountrySelectV3({ id, onCountrySelect }: CountrySelectV3Props) {
+  const { country, setCountry} = useCountryStore();
+  
   const [countries, setCountries] = React.useState<Country[]>([]);
 
   React.useEffect(() => {
@@ -37,6 +39,7 @@ export function CountrySelectV3({ id, onCountrySelect }: CountrySelectV3Props) {
   const handleSelect = (event, value) => {
     if (value) {
       onCountrySelect(value.Id); // Assuming 'Id' is the property that holds the city ID
+      setCountry(value)
     }
   };
   return (
@@ -85,3 +88,14 @@ export function CountrySelectV3({ id, onCountrySelect }: CountrySelectV3Props) {
     
   );
 }
+import create from 'zustand';
+
+interface CountryStore {
+  country: Country;
+  setCountry: (country: Country) => void;
+}
+
+export const useCountryStore = create<CountryStore>((set) => ({
+  country: 0,
+  setCountry: (country) => {console.log(country); set({ country })},
+}));

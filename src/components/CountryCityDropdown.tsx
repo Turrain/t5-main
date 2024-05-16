@@ -14,8 +14,8 @@ interface CountryCitySelectV3Props {
 }
 
 export function CountryCitySelectV3({id}: CountryCitySelectV3Props) {
-  const [countries, setCountries] = React.useState<CountryCity[]>([]);
-
+  const [allCountries, setAllCountries] = React.useState<CountryCity[]>([])
+  const { countries, setCountries } = useCountryCityStore();
   React.useEffect(() => {
     const fetchData = async () => {
       const cityData = await fetchCountryCityData(id);
@@ -27,7 +27,7 @@ export function CountryCitySelectV3({id}: CountryCitySelectV3Props) {
             ...option,
           };
         });
-        setCountries(mp);
+        setAllCountries(mp);
       }
     };
 
@@ -43,10 +43,11 @@ export function CountryCitySelectV3({id}: CountryCitySelectV3Props) {
         },
       }}
       sx={{ width: 300 }}
-      options={countries}
+      options={allCountries}
       autoHighlight
       variant="plain"
       multiple={true}
+      onChange={(event,value)=> setCountries(value)}
       getOptionLabel={(option) => option.Name}
       renderOption={(props, option) => (
         <AutocompleteOption {...props}>
@@ -65,3 +66,14 @@ export function CountryCitySelectV3({id}: CountryCitySelectV3Props) {
     />
   );
 }
+import create from 'zustand';
+
+interface CountryCityStore {
+  countries: CountryCity[];
+  setCountries: (countries: CountryCity[]) => void;
+}
+
+export const useCountryCityStore = create<CountryCityStore>((set) => ({
+  countries: [],
+  setCountries: (countries) => {console.log(countries); set({ countries })},
+}));

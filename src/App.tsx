@@ -36,6 +36,10 @@ import DynamicInputs from "./components/DynamicInputs";
 import Component, { SelectBasic, Trgger } from "./components/cm";
 import { DoubleCalendar, Trgger2, Trigger2 } from "./components/CalendarV2";
 import { Trigger4 } from "./components/ChildsDropdownV2";
+import { HotelStarDropdown } from "./components/HotelStarDropdown";
+import { MealTypesDropdown } from "./components/MealTypesDropdown";
+import { HotelsSelect } from "./components/HotelsDropdown";
+import { Trgger5 } from "./components/HotelSelectV2";
 
 function App() {
   const [DepartCityId, setDepartCityId] = React.useState(1264);
@@ -93,8 +97,13 @@ function App() {
               }}
             >
               <Trigger2 />
+              <Trgger5/>
               <Trigger3 />
               <Trigger4/>
+              <HotelStarDropdown/>
+              <MealTypesDropdown/>
+              <HotelsSelect/>
+            
             </Stack>
           </Box>
         </Stack>
