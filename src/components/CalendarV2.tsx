@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { Box, Button, IconButton, Stack, Typography } from "@mui/joy";
 import { ArrowLeft, ArrowRight } from "@mui/icons-material";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
@@ -10,6 +10,7 @@ import "dayjs/locale/ru";
 dayjs.locale("ru");
 import isBetween from "dayjs/plugin/isBetween";
 import { Popover } from "@mui/material";
+import { useDateStore } from "./store/DateStore";
 dayjs.extend(isBetween);
 const daysInMonth = (year: number, month: number) => {
   return dayjs(`${year}-${month + 1}-01`).daysInMonth();
@@ -36,37 +37,14 @@ const generateCalendar = (year: number, month: number) => {
   return calendar;
 };
 
-export const Calendar = ({
-  selectedDate,
-  onDateClick,
-  startDate,
-  setStartDate,
-  endDate,
-  setEndDate,
-}) => {
+export const Calendar = () => {
   const [currentYear, setCurrentYear] = useState(dayjs().year());
   const [currentMonth, setCurrentMonth] = useState(dayjs().month());
-  const [hoverDate, setHoverDate] = useState(null); // State to track hover date
-  const handleMouseEnter = (day) => {
+  const [hoverDate, setHoverDate] = useState<string | null>(null);
+  const { startDate, endDate, handleDateClick } = useDateStore();
+  const handleMouseEnter = (day: string) => {
     if (startDate && !endDate) {
       setHoverDate(day);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    setHoverDate(null);
-  };
-  const handleDateClick = (day) => {
-    if (!startDate || (startDate && endDate)) {
-      setStartDate(day);
-      setEndDate(null);
-    } else if (startDate && !endDate) {
-      if (dayjs(day).isAfter(startDate)) {
-        setEndDate(day);
-      } else {
-        setEndDate(null);
-        setStartDate(day);
-      }
     }
   };
 
@@ -154,11 +132,7 @@ export const Calendar = ({
                   const fullDate = dayjs(
                     `${currentYear}-${currentMonth + 1}-${day}`
                   ).format("YYYY-MM-DD");
-                  console.log(
-                    fullDate,
-                    dayjs().format("YYYY-MM-DD"),
-                    fullDate == dayjs().format("YYYY-MM-DD")
-                  );
+
                   const isSelected =
                     day &&
                     startDate &&
@@ -171,8 +145,9 @@ export const Calendar = ({
                     hoverDate &&
                     dayjs(fullDate).isBetween(startDate, hoverDate, null, "[]");
 
-                  const isPrevious = 
-                    dayjs(fullDate).isSameOrBefore(dayjs().add(-1,'day'))
+                  const isPrevious = dayjs(fullDate).isSameOrBefore(
+                    dayjs().add(-1, "day")
+                  );
                   return (
                     <td key={dayIndex}>
                       <Button
@@ -205,7 +180,9 @@ export const Calendar = ({
                                 sx={{
                                   lineHeight: 1,
                                   color: isSelected ? "#fff" : "",
-                                  textDecoration: isPrevious ? "line-through" : ""
+                                  textDecoration: isPrevious
+                                    ? "line-through"
+                                    : "",
                                 }}
                               >
                                 {day}
@@ -235,58 +212,6 @@ export const Calendar = ({
   );
 };
 
-export const DoubleCalendar = () => {
-  const [startDate, setStartDate] = useState<Dayjs | null>(dayjs());
-  const [endDate, setEndDate] = useState<Dayjs | null>(dayjs().add(7, "day"));
-
-  const handleStartDateClick = (date: Dayjs) => {
-    setStartDate(date);
-
-    if (endDate && date.isAfter(endDate)) {
-      setEndDate(null);
-    }
-  };
-
-  const handleEndDateClick = (date: Dayjs) => {
-    if (!startDate || date.isAfter(startDate)) {
-      setEndDate(date);
-    } else {
-      setEndDate(null);
-      setStartDate(date);
-    }
-  };
-
-  React.useEffect(() => {
-    console.log(startDate, endDate);
-  }, [startDate, endDate]);
-
-  return (
-    <Box>
-      <div style={{ display: "flex" }}>
-        <div>
-          <Calendar
-            selectedDate={startDate}
-            onDateClick={handleStartDateClick}
-            startDate={startDate}
-            endDate={endDate}
-            setStartDate={setStartDate}
-            setEndDate={setEndDate}
-          />
-        </div>
-        <div style={{ marginLeft: "20px" }}>
-          <Calendar
-            selectedDate={endDate}
-            onDateClick={handleEndDateClick}
-            startDate={startDate}
-            endDate={endDate}
-            setStartDate={setStartDate}
-            setEndDate={setEndDate}
-          />
-        </div>
-      </div>
-    </Box>
-  );
-};
 export function Trigger2() {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -332,7 +257,16 @@ export function Trigger2() {
           horizontal: "left",
         }}
       >
-        <DoubleCalendar />
+        <Box>
+          <div style={{ display: "flex" }}>
+            <div>
+              <Calendar />
+            </div>
+            <div style={{ marginLeft: "20px" }}>
+              <Calendar />
+            </div>
+          </div>
+        </Box>
       </Popover>
     </>
   );

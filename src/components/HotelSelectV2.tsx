@@ -7,74 +7,35 @@ import Typography from "@mui/joy/Typography";
 import Sheet from "@mui/joy/Sheet";
 import {
   Box,
-  IconButton,
   Input,
   ListItemButton,
   Stack,
   listItemButtonClasses,
 } from "@mui/joy";
 import { Popover } from "@mui/material";
-import { KeyboardArrowDown, ReceiptLong } from "@mui/icons-material";
-import { useHotelsStarsStore } from "./HotelStarDropdown";
-import { useCountryStore } from "./CountryDropdownV3";
-import { useHotelsStore } from "./HotelsDropdown";
-import { useCountryCityStore } from "./CountryCityDropdown";
-import fetchCountryData from "./api/fetchCountry";
-import fetchCountryCityData from "./api/fetchCountryCity";
-import fetchHotelsData from "./api/fetchHotels";
 
-export default function ExampleFilterStatusCheckbox() {
+
+import { useCountryStore } from "./store/CountryStore";
+import { useCountryCityStore } from "./store/CountryCityStore";
+import { useHotelStore } from "./store/HotelsStore";
+
+
+
+
+
+export  function ExampleFilterStatusCheckbox() {
   const { country } = useCountryStore();
-  const [allCountries, setAllCountries] = React.useState<CountryCity[]>([]);
-  const [cities, setCities] = React.useState({});
-  const { countries, setCountries } = useCountryCityStore();
-  const [allHotels, setAllHotels] = React.useState<Hotel[]>([]);
-  React.useEffect(() => {
-    const fetchData = async () => {
-      const cityData = await fetchCountryCityData(country.Id);
-      if (cityData) {
-        const mp = cityData.map((option) => {
-          const firstLetter = option.Name[0].toUpperCase();
-          return {
-            firstLetter: /[0-9]/.test(firstLetter) ? "0-9" : firstLetter,
-            ...option,
-          };
-        });
-        setAllCountries(mp);
-      }
-    };
+  const {getCountryCities, countryCities, setCountryCity, countryCity} = useCountryCityStore()
+  const {getHotels, setHotel, hotels, hotel} = useHotelStore()
+  React.useEffect(()=> {
+    if(country) getCountryCities(country.Id)
+  },[country, getCountryCities])
+  React.useEffect(()=> {
+    if(countryCity && country) getHotels(country.Id, countryCity.map(e=> e.Id), [])
+  },[countryCity, country, getHotels])
 
-    fetchData();
-  }, [country]);
-  React.useEffect(() => {
-    console.log(Object.keys(cities));
-    const fetchData = async () => {
-      const cityData = await fetchHotelsData({
-        countryId: country.Id,
-        towns: Object.keys(cities).map((e) => Number(e)),
-        stars: [],
-      });
-      if (cityData) {
-        const mp = cityData.map((option) => {
-          const firstLetter = option.Name[0].toUpperCase();
-          return {
-            firstLetter: /[0-9]/.test(firstLetter) ? "0-9" : firstLetter,
-            ...option,
-          };
-        });
-        setAllHotels(mp);
-      }
-    };
 
-    fetchData();
-  }, [cities, country]);
-  const [status, setStatus] = React.useState({
-    declinedPayment: true,
-    deliveryError: true,
-    wrongAddress: false,
-  });
-  const [open, setOpen] = React.useState(false);
-  const [open2, setOpen2] = React.useState(false);
+
   return (
     <>
       <Typography
@@ -143,7 +104,7 @@ export default function ExampleFilterStatusCheckbox() {
               },
             })}
           >
-            {allCountries
+            {countryCities
               .filter((e) => e.ParentId == null)
               .map((e) => {
                 return (
@@ -156,19 +117,18 @@ export default function ExampleFilterStatusCheckbox() {
                         size="sm"
                         color="primary"
                         overlay
-                        checked={cities[e.Id]}
+                        checked={countryCity.includes(e)}
                         onChange={(ev) =>
-                          setCities({ ...cities, [e.Id]: ev.target.checked })
+                          ev.target.checked ? setCountryCity([...countryCity, e]) :  setCountryCity(countryCity.filter(i => i != e))
                         }
                       />
                     }
                   >
-                    <ListItem>
+                    <ListItem key={e.Id}>
                       <Typography
                         level="inherit"
                         sx={{
-                          fontWeight: open ? "bold" : undefined,
-                          color: open ? "text.primary" : "inherit",
+                    
                         }}
                       >
                         {e.Name}
@@ -181,21 +141,18 @@ export default function ExampleFilterStatusCheckbox() {
                     <List
                       sx={{ "--ListItem-paddingY": "0px", marginLeft: "1px" }}
                     >
-                      {allCountries
+                      {countryCities
                         .filter((et) => et.ParentId == e.Id)
                         .map((ee) => (
-                          <ListItem
+                          <ListItem key={ee.Id}
                             startAction={
                               <Checkbox
                                 size="sm"
                                 color="primary"
                                 overlay
-                                checked={cities[ee.Id]}
+                                checked={countryCity.includes(e)}
                                 onChange={(ev) =>
-                                  setCities({
-                                    ...cities,
-                                    [ee.Id]: ev.target.checked,
-                                  })
+                                  ev.target.checked ? setCountryCity([...countryCity, e]) :  setCountryCity(countryCity.filter(i => i != e))
                                 }
                               />
                             }
@@ -213,9 +170,10 @@ export default function ExampleFilterStatusCheckbox() {
           <Box sx={{ p: 0.75, pt: 0 }}>
             <Stack direction="row">
             <Input placeholder="Type in here…" variant="soft" size="sm" sx={{borderRadius: 0}} />
-            <Input placeholder="Type in here…" variant="soft" size="sm" sx={{borderRadius: 0}} />
+        
+           
             </Stack>
-            <Input placeholder="Type in here…" variant="soft" size="sm" />
+         
           </Box>
           <Sheet
             variant="plain"
@@ -230,13 +188,17 @@ export default function ExampleFilterStatusCheckbox() {
           >
             <div role="group" aria-labelledby="filter-status">
               <List>
-                {allHotels.map((e) => (
-                  <ListItem variant="plain" sx={{ borderRadius: 8 }}>
+                {hotels.map((e) => (
+                  <ListItem variant="plain" sx={{ borderRadius: 8 }} key={e.Id}>
                     <Checkbox
                       size="sm"
                       label={e.Name}
                       color="primary"
                       overlay
+                      checked={hotel.includes(e)}
+                      onChange={(ev) =>
+                        ev.target.checked ? setHotel([...hotel, e]) :  setHotel(hotel.filter(i => i != e))
+                      }
                     />
                   </ListItem>
                 ))}
@@ -268,11 +230,11 @@ export function Trgger5() {
     <>
       <Button
         aria-describedby={id}
-        sx={{ maxWidth: 150 }}
+        sx={{ }}
         variant="outlined"
         onClick={handleClick}
       >
-        3 взр. 2 реб.
+       Выберите курорт
       </Button>
       <Popover
         id={id}
@@ -289,8 +251,12 @@ export function Trgger5() {
           },
         }}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
         }}
       >
         <ExampleFilterStatusCheckbox />

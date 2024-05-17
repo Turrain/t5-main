@@ -1,8 +1,6 @@
 import { Box, Chip, Select, Option } from "@mui/joy";
 import React from "react";
-import fetchHotelStarsData from "./api/fetchHotelStars";
-import { useCountryCityStore } from "./CountryCityDropdown";
-import { useCountryStore } from "./CountryDropdownV3";
+
 import { Typography } from "@mui/material";
 import fetchMealTypesData from "./api/fetchMealTypes";
 
@@ -68,7 +66,7 @@ export function MealTypesDropdown() {
       }}
     >
       {mealTypes.map((e) => (
-        <Option value={e.Id}>{e.Name}</Option>
+        <Option value={e.Id} key={e.Id}>{e.Name}</Option>
       ))}
     </Select>
   );

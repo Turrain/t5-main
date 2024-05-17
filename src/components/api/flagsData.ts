@@ -1,4 +1,4 @@
-export const flagsData ={
+export const flagsData: { [key: string]: string } ={
     "Moldova": "https://flagcdn.com/md.svg",
     "United States": "https://flagcdn.com/us.svg",
     "Mayotte": "https://flagcdn.com/yt.svg",

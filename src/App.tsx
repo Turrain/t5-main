@@ -1,54 +1,80 @@
 import * as React from "react";
 import Stack from "@mui/material/Stack";
-import {
-  Autocomplete,
-  AutocompleteCloseReason,
-  Box,
-  ButtonBase,
-  ClickAwayListener,
-  Container,
-  Divider,
-  FormControl,
-  InputBase,
-  InputLabel,
-  MenuItem,
-  Popper,
-  Select,
-  TextField,
-  Typography,
-  autocompleteClasses,
-  styled,
-  useTheme,
-} from "@mui/material";
+import { Box, Container, Divider } from "@mui/material";
 
-import CalendarDropdown from "./components/CalendarDropdown";
-import {
-  UnstyledSelectRichOptions,
-  UnstyledSelectRichOptions2,
-} from "./components/CountryDropdownV2";
-import { CountrySelectV3 } from "./components/CountryDropdownV3";
-import { CitySelectV3 } from "./components/CityDropdownV3";
-import { CountryCitySelectV3 } from "./components/CountryCityDropdown";
-import { NightsDropdown, Trigger3 } from "./components/NightsDropdown";
+import { CountrySelectV3 } from "./components/CountrySelectV3";
+import { CitySelectV3 } from "./components/CitySelectV3";
+import { Trigger3 } from "./components/NightsDropdown";
 import { Button } from "@mui/joy";
 import DrawerFilters from "./components/Drawer";
-import DynamicInputs from "./components/DynamicInputs";
-import Component, { SelectBasic, Trgger } from "./components/cm";
-import { DoubleCalendar, Trgger2, Trigger2 } from "./components/CalendarV2";
+import { Trigger2 } from "./components/CalendarV2";
 import { Trigger4 } from "./components/ChildsDropdownV2";
-import { HotelStarDropdown } from "./components/HotelStarDropdown";
 import { MealTypesDropdown } from "./components/MealTypesDropdown";
-import { HotelsSelect } from "./components/HotelsDropdown";
 import { Trgger5 } from "./components/HotelSelectV2";
-
-function App() {
-  const [DepartCityId, setDepartCityId] = React.useState(1264);
-  const [CountryId, setCountryId] = React.useState(0);
-  const [open, setOpen] = React.useState(false);
-  const [dateRange, setDateRange] = React.useState({
-    startDate: new Date(),
-    endDate: new Date(),
+function TourForm() {
+  const [formData, setFormData] = React.useState({
+      s_hasTickets: 'true',
+      currencyAlias: 'KZT',
+      s_ticketsIncluded: 'true',
+      includeOilTaxesAndVisa: '1',
+      cityFromId: 1312,
+      countryId: 3,
+      
+      s_adults: 2,
+      s_nightsMin: 3,
+      s_nightsMax: 10,
+      s_departFrom: '19/05/2024',
+      s_departTo: '25/05/2024',
+      requestId: 0,
+      pageSize: 10,
+      pageNumber: 1,
+      updateResult: 1,
+      includeDescriptions: 1,
+      s_hotelIsNotInStop: true,
+      showHotelFacilities: 1
   });
+
+  const handleChange = (e) => {
+      const { name, value } = e.target;
+      setFormData(prevState => ({
+          ...prevState,
+          [name]: value
+      }));
+  };
+
+  const handleSubmit = (e) => {
+      e.preventDefault(); // Prevent default form submission behavior
+      console.log("Sending data...", formData);
+
+      fetch('http://sletat.ru.local', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+      })
+      .then(response => response.json())
+      .then(data => console.log("Response:", data))
+      .catch(error => console.error('Error:', error));
+  };
+
+  return (
+      <form onSubmit={handleSubmit}>
+          <label>
+              City From ID:
+              <input
+                  type="number"
+                  name="cityFromId"
+                  value={formData.cityFromId}
+                  onChange={handleChange}
+              />
+          </label>
+          {/* Add more fields as needed */}
+          <button type="submit">Submit</button>
+      </form>
+  );
+}
+function App() {
 
   return (
     <>
@@ -67,16 +93,14 @@ function App() {
               boxShadow: "0 10px 35px 0 rgba(5,16,54,.102)",
             }}
           >
-            <CitySelectV3 onCitySelect={(id) => setDepartCityId(id)} />
+            <CitySelectV3 />
             <Stack divider={<Divider orientation="horizontal" />}>
-              <CountrySelectV3
-                id={DepartCityId}
-                onCountrySelect={(id) => setCountryId(id)}
-              />
-              <CountryCitySelectV3 id={CountryId} />
+              <CountrySelectV3 />
+
+              <Trgger5 />
             </Stack>
 
-            <CalendarDropdown />
+            <Trigger2 />
 
             <Button sx={{ minWidth: 100 }} variant="outlined" color="primary">
               Поиск
@@ -96,17 +120,14 @@ function App() {
                 boxShadow: "0 10px 35px 0 rgba(5,16,54,.102)",
               }}
             >
-              <Trigger2 />
-              <Trgger5/>
               <Trigger3 />
-              <Trigger4/>
-              <HotelStarDropdown/>
-              <MealTypesDropdown/>
-              <HotelsSelect/>
-            
+              <Trigger4 />
+
+              <MealTypesDropdown />
             </Stack>
           </Box>
         </Stack>
+        <TourForm/>
       </Container>
     </>
   );

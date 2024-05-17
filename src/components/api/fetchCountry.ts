@@ -6,7 +6,7 @@ interface GetCountriesResponse {
     };
   }
   
-export default  async function fetchCountryData(id:number) {
+export  async function fetchCountryData(id:number) {
     const url = `https://module.sletat.ru/Main.svc/GetCountries?townFromId=${id}`;
   
     try {

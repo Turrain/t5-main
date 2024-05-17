@@ -20,6 +20,7 @@ interface Country {
   OriginalName: string;
   Rank: number;
   TicketsIncluded: boolean;
+  flag?: string;
 }
 
 interface CountryCity {
