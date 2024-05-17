@@ -7,6 +7,7 @@ import Typography from "@mui/joy/Typography";
 import Sheet from "@mui/joy/Sheet";
 import {
   Box,
+  CircularProgress,
   Input,
   ListItemButton,
   Stack,
@@ -14,27 +15,26 @@ import {
 } from "@mui/joy";
 import { Popover } from "@mui/material";
 
-
 import { useCountryStore } from "./store/CountryStore";
 import { useCountryCityStore } from "./store/CountryCityStore";
 import { useHotelStore } from "./store/HotelsStore";
 
-
-
-
-
-export  function ExampleFilterStatusCheckbox() {
+export function ExampleFilterStatusCheckbox() {
   const { country } = useCountryStore();
-  const {getCountryCities, countryCities, setCountryCity, countryCity} = useCountryCityStore()
-  const {getHotels, setHotel, hotels, hotel} = useHotelStore()
-  React.useEffect(()=> {
-    if(country) getCountryCities(country.Id)
-  },[country, getCountryCities])
-  React.useEffect(()=> {
-    if(countryCity && country) getHotels(country.Id, countryCity.map(e=> e.Id), [])
-  },[countryCity, country, getHotels])
-
-
+  const { getCountryCities, countryCities, setCountryCity, countryCity } =
+    useCountryCityStore();
+  const { getHotels, setHotel, hotels, hotel } = useHotelStore();
+  React.useEffect(() => {
+    if (country) getCountryCities(country.Id);
+  }, [country, getCountryCities]);
+  React.useEffect(() => {
+    if (countryCity && country)
+      getHotels(
+        country.Id,
+        countryCity.map((e) => e.Id),
+        []
+      );
+  }, [countryCity, country, getHotels]);
 
   return (
     <>
@@ -119,18 +119,15 @@ export  function ExampleFilterStatusCheckbox() {
                         overlay
                         checked={countryCity.includes(e)}
                         onChange={(ev) =>
-                          ev.target.checked ? setCountryCity([...countryCity, e]) :  setCountryCity(countryCity.filter(i => i != e))
+                          ev.target.checked
+                            ? setCountryCity([...countryCity, e])
+                            : setCountryCity(countryCity.filter((i) => i != e))
                         }
                       />
                     }
                   >
                     <ListItem key={e.Id}>
-                      <Typography
-                        level="inherit"
-                        sx={{
-                    
-                        }}
-                      >
+                      <Typography level="inherit" sx={{}}>
                         {e.Name}
                       </Typography>
                       <Typography component="span" level="body-xs">
@@ -144,7 +141,8 @@ export  function ExampleFilterStatusCheckbox() {
                       {countryCities
                         .filter((et) => et.ParentId == e.Id)
                         .map((ee) => (
-                          <ListItem key={ee.Id}
+                          <ListItem
+                            key={ee.Id}
                             startAction={
                               <Checkbox
                                 size="sm"
@@ -152,7 +150,11 @@ export  function ExampleFilterStatusCheckbox() {
                                 overlay
                                 checked={countryCity.includes(e)}
                                 onChange={(ev) =>
-                                  ev.target.checked ? setCountryCity([...countryCity, e]) :  setCountryCity(countryCity.filter(i => i != e))
+                                  ev.target.checked
+                                    ? setCountryCity([...countryCity, e])
+                                    : setCountryCity(
+                                        countryCity.filter((i) => i != e)
+                                      )
                                 }
                               />
                             }
@@ -169,17 +171,19 @@ export  function ExampleFilterStatusCheckbox() {
         <Box>
           <Box sx={{ p: 0.75, pt: 0 }}>
             <Stack direction="row">
-            <Input placeholder="Type in here…" variant="soft" size="sm" sx={{borderRadius: 0}} />
-        
-           
+              <Input
+                placeholder="Type in here…"
+                variant="soft"
+                size="sm"
+                sx={{ borderRadius: 0 }}
+              />
             </Stack>
-         
           </Box>
           <Sheet
             variant="plain"
             sx={{
               borderRadius: "sm",
-             
+
               maxHeight: 500 - 70,
               overflowY: "auto",
               overflowX: "hidden",
@@ -188,6 +192,22 @@ export  function ExampleFilterStatusCheckbox() {
           >
             <div role="group" aria-labelledby="filter-status">
               <List>
+                {hotels && (
+                  <Box
+                    sx={{
+                      width: '100%',
+                      height: '100%',
+                      
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                   
+                    }}
+                  >
+                    <CircularProgress variant='soft' color="primary" />
+                   
+                  </Box>
+                )}
                 {hotels.map((e) => (
                   <ListItem variant="plain" sx={{ borderRadius: 8 }} key={e.Id}>
                     <Checkbox
@@ -197,7 +217,9 @@ export  function ExampleFilterStatusCheckbox() {
                       overlay
                       checked={hotel.includes(e)}
                       onChange={(ev) =>
-                        ev.target.checked ? setHotel([...hotel, e]) :  setHotel(hotel.filter(i => i != e))
+                        ev.target.checked
+                          ? setHotel([...hotel, e])
+                          : setHotel(hotel.filter((i) => i != e))
                       }
                     />
                   </ListItem>
@@ -230,11 +252,11 @@ export function Trgger5() {
     <>
       <Button
         aria-describedby={id}
-        sx={{ }}
+        sx={{}}
         variant="outlined"
         onClick={handleClick}
       >
-       Выберите курорт
+        Выберите курорт
       </Button>
       <Popover
         id={id}
@@ -251,12 +273,12 @@ export function Trgger5() {
           },
         }}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
+          vertical: "bottom",
+          horizontal: "center",
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
+          vertical: "top",
+          horizontal: "center",
         }}
       >
         <ExampleFilterStatusCheckbox />

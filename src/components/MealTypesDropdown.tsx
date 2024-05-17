@@ -46,8 +46,8 @@ export function MealTypesDropdown() {
       }
       renderValue={(selected) => (
         <Box sx={{ display: "flex", gap: "0.25rem" }}>
-          {selected.map((selectedOption) => (
-            <Chip variant="soft" color="primary">
+          {selected.map((selectedOption, index) => (
+            <Chip variant="soft" color="primary" key={index}>
               {selectedOption.label}
             </Chip>
           ))}

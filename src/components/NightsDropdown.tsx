@@ -1,15 +1,21 @@
+// Trigger3.tsx
 import * as React from "react";
-import Autocomplete from "@mui/joy/Autocomplete";
-import AutocompleteOption from "@mui/joy/AutocompleteOption";
-import ListItemContent from "@mui/joy/ListItemContent";
-import Typography from "@mui/joy/Typography";
-import { Box, Button, Slider } from "@mui/joy";
+import { Box, Button, Typography } from "@mui/joy";
 import { Popover } from "@mui/material";
+import { useNightsStore } from "./store/NightsStore";
+
 
 export function Trigger3() {
-  const [hoverIndex, setHoverIndex] = React.useState<number | null>(null);
-  const [startIndex, setStartIndex] = React.useState<number | null>(null);
-  const [endIndex, setEndIndex] = React.useState<number | null>(null);
+  const {
+    hoverIndex,
+    startIndex,
+    endIndex,
+    setHoverIndex,
+    setStartIndex,
+    setEndIndex,
+    handleClickIndex,
+    handleMouseEnter,
+  } = useNightsStore();
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -23,24 +29,6 @@ export function Trigger3() {
     setAnchorEl(null);
   };
 
-  const handleClickIndex = (event, index) => {
-    console.log(startIndex, endIndex);
-    if (startIndex === null || (startIndex !== null && endIndex !== null)) {
-      setStartIndex(index);
-      setEndIndex(null);
-    } else if (startIndex !== null && endIndex === null) {
-      if (index < startIndex) {
-        setEndIndex(startIndex);
-        setStartIndex(index);
-      } else {
-        setEndIndex(index);
-      }
-    }
-  };
-  const handleMouseEnter = (index: number) => {
-    setHoverIndex(index);
-  };
-
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
@@ -52,7 +40,7 @@ export function Trigger3() {
         variant="outlined"
         onClick={handleClick}
       >
-        Ночи
+        {startIndex} - {endIndex} ночей
       </Button>
       <Popover
         id={id}
@@ -80,10 +68,10 @@ export function Trigger3() {
             mb: 1,
             backgroundColor: "primary.solidBg",
             borderRadius: 7,
-            fontSize:'14px',
+            fontSize: "14px",
             fontWeight: 500,
-            textAlign: 'center',
-            color: '#fff'
+            textAlign: "center",
+            color: "#fff",
           }}
         >
           Выберите кол-во ночей
@@ -114,7 +102,7 @@ export function Trigger3() {
                   width: 40,
                   height: 40,
                 }}
-                onClick={(e) => handleClickIndex(e, index)}
+                onClick={() => handleClickIndex(index)}
                 onMouseEnter={() => handleMouseEnter(index)}
               >
                 {index + 1}

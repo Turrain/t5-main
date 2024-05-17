@@ -40,6 +40,7 @@ export default function DrawerFilters() {
         color="primary"
         startDecorator={<TuneIcon />}
         onClick={() => setOpen(true)}
+        sx={{width: '100%'}}
       >
         Фильтр
       </Button>

@@ -1,0 +1,281 @@
+
+{
+    "GetToursResult": {
+        "Data": {
+            "aaData": [
+                [
+                    "1792097464",
+                    4,
+                    "https://hotels.sletat.ru/?id=120282",
+                    120282,
+                    "",
+                    1334,
+                    "ANTALYA, SIDE TWINGS RESIDENCE HOME (3 ноч.)",
+                    "Twings Residence Home",
+                    "3*",
+                    "Studio Apartment",
+                    "RO",
+                    "DBL",
+                    "22.09.2019",
+                    "25.09.2019",
+                    3,
+                    "30233 RUB",
+                    2,
+                    0,
+                    "TEZ TOUR",
+                    "Сиде",
+                    [
+                        "http://www.tez-tour.com/ru/spb/search.html"
+                    ],
+                    "0",
+                    "1",
+                    "1",
+                    "1",
+                    "1",
+                    "1",
+                    "Вс.",
+                    "25.09",
+                    "",
+                    119,
+                    "Турция",
+                    832,
+                    "Москва",
+                    "//static.sletat.ru/images/to/4.png",
+                    "0",
+                    "",
+                    "",
+                    "",
+                    13103,
+                    false,
+                    117,
+                    30233,
+                    "RUB",
+                    5753,
+                    402,
+                    0,
+                    "https://sletat.ru/book/TEZ TOUR/NHwxNzkyMDk3NDY0fDgzMnw1OTIwMDY3MDJ8",
+                    "SIDE TWINGS RESIDENCE HOME",
+                    "3 *",
+                    "Сиде",
+                    "RO",
+                    "2ADL",
+                    "Studio Apartment",
+                    "",
+                    "7",
+                    "",
+                    "2",
+                    "-1",
+                    0,
+                    "SIDE TWINGS RESIDENCE HOME",
+                    "3 *",
+                    "Сиде",
+                    "RO",
+                    "2ADL",
+                    "Studio Apartment",
+                    402,
+                    0,
+                    "+j0faDzJV6UBHpT16oUO9A==",
+                    "65536",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "Y4I6oFV4RRG6pnjmHab8Pw==",
+                    0,
+                    null,
+                    -1,
+                    false,
+                    "",
+                    "",
+                    30233,
+                    0,
+                    0,
+                    null,
+                    null,
+                    [
+                        17
+                    ],
+                    36.7794571,
+                    31.398035,
+                    "",
+                    [
+                        7
+                    ],
+                    0.00105993031
+                ]
+            ],
+            "cacheIsEmpty": false,
+            "countryCurrencyId": "3",
+            "hotelDetailedTypes": null,
+            "hotelFacilitiesData": {
+                "facilities": [
+                    {
+                        "id": 2,
+                        "name": "Чистка обуви"
+                    },
+                    {
+                        "id": 3,
+                        "name": "Экскурсии"
+                    },
+                    {
+                        "id": 6,
+                        "name": "Частная"
+                    },
+                    {
+                        "id": 8,
+                        "name": "Глажка одежды"
+                    },
+                    {
+                        "id": 9,
+                        "name": "Пункт обмена валюты"
+                    }
+                ],
+                "groups": [
+                    {
+                        "id": 2,
+                        "name": "Общие услуги"
+                    },
+                    {
+                        "id": 3,
+                        "name": "Парковка"
+                    },
+                    {
+                        "id": 6,
+                        "name": "Пляжная линия"
+                    },
+                    {
+                        "id": 8,
+                        "name": "Удобства в номерах"
+                    },
+                    {
+                        "id": 9,
+                        "name": "Специальные номера"
+                    }
+                ],
+                "hotelFacilities": [
+                    {
+                        "facilities": [
+                            {
+                                "facilityId": 16,
+                                "groupId": 2,
+                                "hit": null
+                            },
+                            {
+                                "facilityId": 24,
+                                "groupId": 8,
+                                "hit": null
+                            },
+                            {
+                                "facilityId": 26,
+                                "groupId": 15,
+                                "hit": null
+                            },
+                            {
+                                "facilityId": 30,
+                                "groupId": 12,
+                                "hit": null
+                            }
+                        ]
+                    }
+                ]
+            },
+            "hotelsCount": 8,
+            "iTotalDisplayRecords": 105,
+            "iTotalRecords": 105,
+            "isInTheBasket": 0,
+            "loadState": [
+                {
+                    "Id": 51,
+                    "Name": "Ambotis Holidays",
+                    "ErrorMessage": null,
+                    "ExecutionTimeMs": 2491,
+                    "IsCached": false,
+                    "IsError": false,
+                    "IsPersistentCacheUsed": false,
+                    "IsProcessed": true,
+                    "IsSkipped": false,
+                    "IsTimeout": false,
+                    "MaxFullPrice": 0,
+                    "MaxPrice": 53086,
+                    "MinFullPrice": 0,
+                    "MinPrice": 46492,
+                    "OnlineErrorMessage": null,
+                    "RowsCount": 74
+                },
+                {
+                    "Id": 171,
+                    "Name": "Amigo S",
+                    "ErrorMessage": null,
+                    "ExecutionTimeMs": 4708,
+                    "IsCached": false,
+                    "IsError": false,
+                    "IsPersistentCacheUsed": false,
+                    "IsProcessed": true,
+                    "IsSkipped": false,
+                    "IsTimeout": false,
+                    "MaxFullPrice": 0,
+                    "MaxPrice": 50726,
+                    "MinFullPrice": 0,
+                    "MinPrice": 44120,
+                    "OnlineErrorMessage": null,
+                    "RowsCount": 50
+                }
+            ],
+            "oilTaxes": [
+                [
+                    "81",
+                    "19.04.2019",
+                    "30.04.2020",
+                    35,
+                    "EUR",
+                    null,
+                    null,
+                    "Аланья",
+                    null,
+                    34,
+                    null,
+                    832,
+                    null,
+                    null
+                ],
+                [
+                    "81",
+                    "19.04.2019",
+                    "30.04.2020",
+                    35,
+                    "EUR",
+                    null,
+                    null,
+                    "Анталья",
+                    null,
+                    72,
+                    null,
+                    832,
+                    null,
+                    null
+                ],
+                [
+                    "81",
+                    "19.04.2019",
+                    "30.04.2020",
+                    35,
+                    "EUR",
+                    null,
+                    null,
+                    "Белек",
+                    null,
+                    149,
+                    null,
+                    832,
+                    null,
+                    null
+                ]
+            ]
+        }
+    }
+}

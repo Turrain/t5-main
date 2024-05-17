@@ -232,7 +232,7 @@ export function Trigger2() {
     <>
       <Button
         aria-describedby={id}
-        sx={{ maxWidth: 150 }}
+        
         variant="outlined"
         onClick={handleClick}
       >
@@ -258,14 +258,11 @@ export function Trigger2() {
         }}
       >
         <Box>
-          <div style={{ display: "flex" }}>
-            <div>
-              <Calendar />
-            </div>
-            <div style={{ marginLeft: "20px" }}>
-              <Calendar />
-            </div>
-          </div>
+          <Stack sx={{ flexDirection: { xs: "column", sm: "row" } }}>
+            <Calendar />
+
+            <Calendar />
+          </Stack>
         </Box>
       </Popover>
     </>

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+// TouristSelector.tsx
+import React from "react";
 import {
   Box,
   Typography,
@@ -10,44 +11,23 @@ import {
   ListItemButton,
 } from "@mui/joy";
 import { Popover, Stack } from "@mui/material";
-import { Delete, Remove } from "@mui/icons-material";
+import { useTouristStore } from "./store/TouristStore";
+
 
 export function TouristSelector() {
-  const [adultCount, setAdultCount] = useState(2);
+  const {
+    adultCount,
+    children,
+    selectedChildId,
+    setAdultCount,
+    addChild,
+    removeChild,
+    selectChild,
+    setChildAge,
+  } = useTouristStore();
 
-  const [children, setChildren] = useState([]);
-  const [selectedChildId, setSelectedChildId] = useState(null);
   const ages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 
-  const handleAdultChange = (change) => {
-    setAdultCount(Math.max(0, adultCount + change));
-  };
-  const handleAddChild = () => {
-    const newChild = { id: Date.now(), age: 8 };
-    setChildren([...children, newChild]);
-    setSelectedChildId(newChild.id); // Automatically select newly added child
-  };
-
-  const handleRemoveChild = (id) => {
-    setChildren(children.filter(child => child.id !== id));
-    if (id === selectedChildId) {
-      setSelectedChildId(null); // Deselect if the removed child was selected
-    }
-  };
-
-  const handleSelectChild = (id) => {
-    if (id === selectedChildId) {
-      setSelectedChildId(null); // Toggle selection off if the same child is clicked
-    } else {
-      setSelectedChildId(id);
-    }
-  };
-  const handleSetChildAge = (age) => {
-    if (selectedChildId) {
-      setChildren(children.map(child => (child.id === selectedChildId ? { ...child, age } : child)));
-      setSelectedChildId(null); // Deselect the child automatically after setting the age
-    }
-  };
   return (
     <Box>
       <Typography
@@ -72,7 +52,7 @@ export function TouristSelector() {
         <IconButton
           variant="outlined"
           color="primary"
-          onClick={() => handleAdultChange(-1)}
+          onClick={() => setAdultCount(-1)}
         >
           -
         </IconButton>
@@ -80,7 +60,7 @@ export function TouristSelector() {
         <IconButton
           variant="outlined"
           color="primary"
-          onClick={() => handleAdultChange(1)}
+          onClick={() => setAdultCount(1)}
         >
           +
         </IconButton>
@@ -90,12 +70,12 @@ export function TouristSelector() {
       <List>
         {children.map((child) => (
           <ListItem key={child.id}>
-            <ListItemButton onClick={() => handleSelectChild(child.id)}>
+            <ListItemButton onClick={() => selectChild(child.id)}>
               Ребенок {child.age} лет
             </ListItemButton>
             <IconButton
               aria-label="Delete"
-              onClick={() => handleRemoveChild(child.id)}
+              onClick={() => removeChild(child.id)}
               color="danger"
             >
               ✖
@@ -105,7 +85,7 @@ export function TouristSelector() {
       </List>
       <Button
         variant="outlined"
-        onClick={handleAddChild}
+        onClick={() => addChild(8)}
         sx={{ width: "100%", mb: 2 }}
       >
         Добавить ребенка
@@ -140,7 +120,7 @@ export function TouristSelector() {
               <Button
                 key={age}
                 variant="outlined"
-                onClick={() => handleSetChildAge(age)}
+                onClick={() => setChildAge(selectedChildId, age)}
                 sx={{
                   color:
                     age ===
@@ -163,10 +143,15 @@ export function TouristSelector() {
     </Box>
   );
 }
+
 export function Trigger4() {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
+  const {
+    adultCount,
+    children,
+  } = useTouristStore();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -187,7 +172,7 @@ export function Trigger4() {
         variant="outlined"
         onClick={handleClick}
       >
-        Дети
+        {adultCount} взр. {children.length} детей
       </Button>
       <Popover
         id={id}
