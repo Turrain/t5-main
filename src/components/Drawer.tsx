@@ -171,7 +171,7 @@ export default function DrawerFilters() {
                         ratio={1}
                         sx={{ width: 20, borderRadius: 20, ml: -0.5, mr: 0.75 }}
                       >
-                        <div>{selected && <Done fontSize="md" />}</div>
+                        <div>{selected && <Done fontSize="medium" />}</div>
                       </AspectRatio>
                       <Checkbox
                         size="sm"

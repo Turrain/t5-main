@@ -1,4 +1,4 @@
-import * as React from "react";
+
 import Stack from "@mui/material/Stack";
 import { Box, Container, Divider } from "@mui/material";
 
@@ -6,15 +6,9 @@ import { CountrySelectV3 } from "./components/CountrySelectV3";
 import { CitySelectV3 } from "./components/CitySelectV3";
 import { Trigger3 } from "./components/NightsDropdown";
 import {
-  AspectRatio,
-  Avatar,
+
   Button,
-  Card,
-  CardCover,
-  Chip,
-  IconButton,
-  Link,
-  Typography,
+
 } from "@mui/joy";
 import DrawerFilters from "./components/Drawer";
 import { Trigger2 } from "./components/CalendarV2";
@@ -22,74 +16,11 @@ import { Trigger4 } from "./components/ChildsDropdownV2";
 import { MealTypesDropdown } from "./components/MealTypesDropdown";
 import { Trgger5 } from "./components/HotelSelectV2";
 import data from "./components/api/tours.json";
-import { CreateNewFolder, Favorite, Visibility } from "@mui/icons-material";
-import HotelCard from "./components/HotelCard";
+
 import HotelGrid from "./components/HotelGrid";
 import TravelGrid from "./components/TravelGrid";
 
-function TourForm() {
-  const [formData, setFormData] = React.useState({
-    s_hasTickets: "true",
-    currencyAlias: "KZT",
-    s_ticketsIncluded: "true",
-    includeOilTaxesAndVisa: "1",
-    cityFromId: 1312,
-    countryId: 3,
 
-    s_adults: 2,
-    s_nightsMin: 3,
-    s_nightsMax: 10,
-    s_departFrom: "19/05/2024",
-    s_departTo: "25/05/2024",
-    requestId: 0,
-    pageSize: 10,
-    pageNumber: 1,
-    updateResult: 1,
-    includeDescriptions: 1,
-    s_hotelIsNotInStop: true,
-    showHotelFacilities: 1,
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
-    console.log("Sending data...", formData);
-
-    fetch("http://sletat.ru.local", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log("Response:", data))
-      .catch((error) => console.error("Error:", error));
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        City From ID:
-        <input
-          type="number"
-          name="cityFromId"
-          value={formData.cityFromId}
-          onChange={handleChange}
-        />
-      </label>
-      {/* Add more fields as needed */}
-      <button type="submit">Submit</button>
-    </form>
-  );
-}
 function App() {
   const tour = data.GetToursResult.Data.aaData[0]; // Assuming y
   console.log(tour);

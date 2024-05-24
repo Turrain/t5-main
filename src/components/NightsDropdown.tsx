@@ -10,9 +10,7 @@ export function Trigger3() {
     hoverIndex,
     startIndex,
     endIndex,
-    setHoverIndex,
-    setStartIndex,
-    setEndIndex,
+  
     handleClickIndex,
     handleMouseEnter,
   } = useNightsStore();

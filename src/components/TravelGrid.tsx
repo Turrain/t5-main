@@ -1,5 +1,5 @@
-import React from 'react';
-import { Card, CardMedia, CardContent, Typography, Box, Grid, Container, IconButton } from '@mui/material';
+
+import { Card, CardMedia, CardContent, Typography, Box, Grid, IconButton } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
