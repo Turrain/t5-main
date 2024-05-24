@@ -1,10 +1,13 @@
 
 import { Card, CardMedia, CardContent, Typography, Box, Rating, Button } from '@mui/material';
+import { useStyles } from '../main';
 
 const HotelCard = () => {
+  const styles = useStyles()
   return (
     <Card 
       sx={{ 
+        ...styles.card,
         maxWidth: { xs: '100%', sm: 345 }, 
         borderRadius: '16px', 
         boxShadow: "0 10px 35px 0 rgba(5,16,54,.102)", 
