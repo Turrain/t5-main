@@ -12,7 +12,10 @@ import {
 } from "@mui/joy/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect } from "react";
+import { Typography } from "@mui/material";
+import React from "react";
+import ReactDOM from "react-dom";
 const materialTheme = materialExtendTheme();
 const theme = extendTheme({
   fontFamily: {
@@ -46,6 +49,20 @@ export const useStyles = () => {
 // };
 
 export const App2 = ({ curstomStyles }: { curstomStyles: {} }) => {
+const [subscription, setSubscription] = React.useState(false);
+useEffect(()=> {
+  const fetchSubscription = async () => {
+    try{
+      const res = await (await fetch("http://localhost:3000/subscriptions/getByDomain")).json()
+      console.log(res)
+      setSubscription(res)
+    }catch(error){
+      console.error("Error: ", error)
+    }
+  }
+  fetchSubscription();
+}, [])
+
   return (
     <MaterialCssVarsProvider
       defaultColorScheme={"light"}
@@ -54,9 +71,20 @@ export const App2 = ({ curstomStyles }: { curstomStyles: {} }) => {
       <JoyCssVarsProvider defaultColorScheme={"light"} theme={theme}>
         <CssBaseline />
         <StylesProvider styles={curstomStyles}>
+          {/* {
+            subscription ? (
+              <App/>
+            ) : (
+              <Typography>
+                Error
+              </Typography>
+            )
+            
+          } */}
           <App />
+      
         </StylesProvider>
-        ,
+        
       </JoyCssVarsProvider>
     </MaterialCssVarsProvider>
   );
@@ -69,8 +97,8 @@ export const App2 = ({ curstomStyles }: { curstomStyles: {} }) => {
 // window.renderModuleComponent = (containerId) => {
 //   ReactDOM.render(<App2 />, document.getElementById(containerId));
 // };
-// ReactDOM.createRoot(document.getElementById("root")!).render(
-//   <React.StrictMode>
-//     <App2 />
-//   </React.StrictMode>
-// );
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <App2 curstomStyles={{}} />
+  </React.StrictMode>
+);

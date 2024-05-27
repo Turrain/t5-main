@@ -1,8 +1,16 @@
 
 import { Card, CardMedia, CardContent, Typography, Box, Rating, Button } from '@mui/material';
 import { useStyles } from '../main';
+import React, { useEffect } from 'react';
+import fetchToursData from './api/fecthTours';
 
 const HotelCard = () => {
+const [tours, setTours] = React.useState({});
+
+useEffect(() => {
+  fetchToursData().then(e => setTours(e));
+}, [])
+
   const styles = useStyles()
   return (
     <Card 
@@ -16,22 +24,22 @@ const HotelCard = () => {
     >
       <CardMedia
         component="img"
-        alt="Asdem Park Hotel"
+        alt={tours?.GetToursResult?.Data.aaData[0][7]}
         height="140"
-        image="https://resize.onlinetours.ru/JTUak4RUh12Bozv2VmjPRb5CzsGZvjDxoN8pr8c20bI/rs:fill:752:327:0/g:ce/aHR0cHM6Ly9zdGF0/aWMxLm9sdC5zdS9z/eXN0ZW0vdXBsb2Fk/cy9ob3RlbF9waG90/by9pbWFnZS8yNy8x/OC82OS80MS8wNTA1/MjAyMjA4MzA1MDAx/MC5qcGVnP3RpbWVz/dGFtcD0xNjU0ODY4/Mzcw.jpg"
+        image={tours?.GetToursResult?.Data.aaData[0][34]}
       />
       <CardContent>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-          <Rating value={4} readOnly precision={0.5} size="small" />
+          <Rating value={tours?.GetToursResult?.Data.aaData[0][35]} readOnly precision={0.5} size="small" />
           <Typography variant="body2" color="textSecondary" sx={{ ml: 1 }}>
-            7.8
+            {tours?.GetToursResult?.Data.aaData[0][35]}
           </Typography>
         </Box>
         <Typography gutterBottom variant="h5" component="div">
-          Asdem Park Hotel
+          {tours?.GetToursResult?.Data.aaData[0][7]}
         </Typography>
         <Typography variant="body2" color="textSecondary">
-          Турция, Кемер, Кемер (центр города)
+          {tours?.GetToursResult?.Data.aaData[0][31]}, {tours?.GetToursResult?.Data.aaData[0][19]}
         </Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 1, mb: 1 }}>
           <Typography variant="caption" sx={{ mr: 1, border: '1px solid', borderRadius: '4px', padding: '2px 4px' }}>
@@ -45,10 +53,10 @@ const HotelCard = () => {
           </Typography>
         </Box>
         <Typography variant="body2" color="textSecondary">
-          Туда <strong>28.05 вт</strong> - Обратно <strong>02.06 вс</strong> • Ночей <strong>5</strong>
+          Туда <strong>{tours?.GetToursResult?.Data.aaData[0][12]}</strong> - Обратно <strong>{tours?.GetToursResult?.Data.aaData[0][13]}</strong> • Ночей <strong>{tours?.GetToursResult?.Data.aaData[0][14]}</strong>
         </Typography>
         <Typography variant="h6" color="primary" sx={{ mt: 2 }}>
-          От 105 222 ₽ за 2 -х
+          От {tours?.GetToursResult?.Data.aaData[0][15]} за {tours?.GetToursResult?.Data.aaData[0][16]} -х
         </Typography>
         <Button variant="contained" color="primary" fullWidth sx={{ mt: 2, borderRadius: '10px' }}>
           Book Now

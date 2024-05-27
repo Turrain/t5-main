@@ -19,6 +19,7 @@ import data from "./components/api/tours.json";
 
 import HotelGrid from "./components/HotelGrid";
 import TravelGrid from "./components/TravelGrid";
+import Description from "./components/DescriptionV1";
 
 
 function App() {
@@ -82,6 +83,8 @@ function App() {
            
             <HotelGrid/>
             <TravelGrid/>
+            <Description />
+
             {/* <Card>
       <CardMedia
         component="img"
