@@ -1,8 +1,6 @@
 import {
   ArrowBack,
-  ArrowBackIos,
   ArrowForward,
-  ArrowForwardIos,
   BeachAccess,
   BorderBottom,
   BusinessCenter,
@@ -20,6 +18,7 @@ import {
   LocationCity,
   LocationOn,
   Lock,
+  NightsStay,
   Pool,
   Restaurant,
   SportsSoccer,
@@ -27,23 +26,10 @@ import {
   TransferWithinAStation,
   Wifi,
 } from "@mui/icons-material";
-import {
-  Breadcrumbs,
-  IconButton,
-  Link,
-  Modal,
-  ModalClose,
-  Sheet,
-  Stack,
-} from "@mui/joy";
+import { Breadcrumbs, Checkbox, Divider, Link, Modal, ModalClose, Sheet, Stack, Button, Typography, Grid, Card, CardContent } from "@mui/joy";
 import {
   Box,
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
   Chip,
-  Grid,
   List,
   ListItem,
   ListItemIcon,
@@ -53,15 +39,15 @@ import {
   Rating,
   Tab,
   Tabs,
-  Typography,
 } from "@mui/material";
-import SwipeableViews from "react-swipeable-views";
-import { autoPlay } from "react-swipeable-views-utils";
+import SwipeableViews from 'react-swipeable-views';
+import { autoPlay } from 'react-swipeable-views-utils';
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 import ImageGrid from "./ImageList";
 import React from "react";
 import PriceChart from "./PriceChart";
+import RoomDetailCard from "./RoomDetailCard";
 
 const DateFilter = ({ dates }) => (
   <Box sx={{ mb: 2 }}>
@@ -217,116 +203,7 @@ const HotelRating = () => {
     </Box>
   );
 };
-const RoomDetailCard = () => {
-  const [activeStep, setActiveStep] = React.useState(0);
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const images = [
-    "https://via.placeholder.com/600x400?text=Image+1",
-    "https://via.placeholder.com/600x400?text=Image+2",
-    "https://via.placeholder.com/600x400?text=Image+3",
-    "https://via.placeholder.com/600x400?text=Image+2",
-    "https://via.placeholder.com/600x400?text=Image+3",
-  ];
-  const maxSteps = images.length;
-  const amenities = [
-    "Ванна",
-    "Душ",
-    "Кондиционер",
-    "Мини-бар",
-    "Стиральная машина",
-    "Телевизор",
-    "Телефон",
-  ];
-
-  return (
-    <Card sx={{ maxWidth: 345, margin: "auto", boxShadow: 3 }}>
-      <Box sx={{ position: "relative" }}>
-        <AutoPlaySwipeableViews
-          axis="x"
-          index={activeStep}
-          onChangeIndex={(step) => setActiveStep(step)}
-          enableMouseEvents
-        >
-          {images.map((step, index) => (
-            <Box
-              key={index}
-              component="div"
-              sx={{
-                width: "100%",
-                height: "200px",
-                backgroundImage: `url(${step})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            ></Box>
-          ))}
-        </AutoPlaySwipeableViews>
-        <IconButton
-          sx={{ position: "absolute", top: "45%", left: "1rem" }}
-          onClick={handleBack} disabled={activeStep === 0}
-        ><ArrowBackIos  /></IconButton>
-        
-        <Stack
-          direction="row"
-          sx={{ position: "absolute", bottom: "1rem", width: "100%", gap: 1, px:1 }}
-        >
-          {images.map((e, i) => (
-            <div
-              style={{
-                height: 5,
-                borderRadius: 5,
-                width: `calc(100%/${maxSteps})`,
-                backgroundColor: activeStep + 1 <= i ? "#ddd" : "#fff",
-              }}
-            ></div>
-          ))}
-        </Stack>
-        <IconButton
-          sx={{ position: "absolute", top: "45%", right: "1rem" }}
-          onClick={handleNext}
-          disabled={activeStep === maxSteps - 1}
-        ><ArrowForwardIos  /></IconButton>
-
-      
-      </Box>
-
-   
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          Улучшенный номер
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          55 м² • 1 комната • Максимум 3 человека
-        </Typography>
-        <Typography variant="body2" color="text.secondary" paragraph>
-          Просторный номер с гостиной и спальной зонами, ванной комнатой с душем
-          и ванной, есть балкон/терраса. Комплектация включает кондиционер,
-          сейф, мини-бар, телевизор, телефон, фен, туалетно-косметические...
-        </Typography>
-        <Grid container spacing={1}>
-          {amenities.map((amenity, index) => (
-            <Grid item key={index}>
-              <Chip label={amenity} />
-            </Grid>
-          ))}
-        </Grid>
-        <Box mt={2}>
-          <Button variant="contained" color="primary" fullWidth>
-            Подробнее о номере
-          </Button>
-        </Box>
-      </CardContent>
-    </Card>
-  );
-};
 
 const HotelInfo = () => {
   return (
@@ -377,8 +254,7 @@ const HotelInfo = () => {
           Расположение отеля
         </Typography>
         <Typography variant="body1" gutterBottom>
-          Отель Tamra Beach Resort расположен в 7 км от аэропорта
-          Шарм-Эль-Шейха, в бухте Набк Бей.
+          Отель Tamra Beach Resort расположен в 7 км от аэропорта Шарм-Эль-Шейха, в бухте Набк Бей.
         </Typography>
         <Typography variant="h6" gutterBottom>
           Номерной фонд гостиницы Tamra Beach Resort
@@ -394,89 +270,67 @@ const HotelInfo = () => {
   );
 };
 
+
 const services = [
   {
-    category: "Питание:",
+    category: 'Питание:',
     icon: <Restaurant />,
-    items: [
-      "Диетическое меню",
-      "Ресторан",
-      "Бар",
-      "Шведский стол",
-      "Бар у бассейна",
-    ],
+    items: ['Диетическое меню', 'Ресторан', 'Бар', 'Шведский стол', 'Бар у бассейна'],
   },
   {
-    category: "Пляж:",
+    category: 'Пляж:',
     icon: <BeachAccess />,
-    items: ["Частный пляж", "1-ая пляжная линия", "Песок жёлтый", "Галька"],
+    items: ['Частный пляж', '1-ая пляжная линия', 'Песок жёлтый', 'Галька'],
   },
   {
-    category: "Удобства в номерах:",
+    category: 'Удобства в номерах:',
     icon: <Hotel />,
-    items: [
-      "Сейф",
-      "Кондиционер",
-      "Терраса",
-      "Фен",
-      "Телевизор",
-      "Мини-бар",
-      "Телефон",
-      "Душ",
-    ],
+    items: ['Сейф', 'Кондиционер', 'Терраса', 'Фен', 'Телевизор', 'Мини-бар', 'Телефон', 'Душ'],
   },
   {
-    category: "Интернет:",
+    category: 'Интернет:',
     icon: <Wifi />,
-    items: ["Wi-Fi"],
+    items: ['Wi-Fi'],
   },
   {
-    category: "Спорт:",
+    category: 'Спорт:',
     icon: <SportsSoccer />,
-    items: ["Настольный теннис", "Волейбол", "Футбол", "Групповые занятия"],
+    items: ['Настольный теннис', 'Волейбол', 'Футбол', 'Групповые занятия'],
   },
   {
-    category: "Бассейн:",
+    category: 'Бассейн:',
     icon: <Pool />,
-    items: ["Крытый бассейн", "Открытый бассейн", "Бассейн с подогревом"],
+    items: ['Крытый бассейн', 'Открытый бассейн', 'Бассейн с подогревом'],
   },
   {
-    category: "Услуги для детей:",
+    category: 'Услуги для детей:',
     icon: <ChildCare />,
-    items: ["Детская площадка", "Детский клуб", "Детский бассейн"],
+    items: ['Детская площадка', 'Детский клуб', 'Детский бассейн'],
   },
   {
-    category: "Здоровье и красота:",
+    category: 'Здоровье и красота:',
     icon: <HealthAndSafety />,
-    items: [
-      "Массаж",
-      "Сауна",
-      "Спа и оздоровительный центр",
-      "Паровая баня",
-      "Гидромассажная ванна",
-      "Салон красоты",
-      "Кабинет врача",
-    ],
+    items: ['Массаж', 'Сауна', 'Спа и оздоровительный центр', 'Паровая баня', 'Гидромассажная ванна', 'Салон красоты', 'Кабинет врача'],
   },
   {
-    category: "Транспорт:",
+    category: 'Транспорт:',
     icon: <DirectionsCar />,
-    items: ["Трансфер", "Аренда лимузина"],
+    items: ['Трансфер', 'Аренда лимузина'],
   },
   {
-    category: "Бизнес-услуги:",
+    category: 'Бизнес-услуги:',
     icon: <BusinessCenter />,
-    items: ["Конференц-зал"],
+    items: ['Конференц-зал'],
   },
   {
-    category: "Услуги по чистке одежды:",
+    category: 'Услуги по чистке одежды:',
     icon: <LocalLaundryService />,
-    items: ["Прачечная"],
+    items: ['Прачечная'],
   },
   {
-    category: "Общие услуги:",
+    category: 'Общие услуги:',
     icon: <LocalOffer />,
-    items: ["Банкомат", "Сад", "Магазины в отеле", "Банкетный зал"],
+    items: ['Банкомат', 'Сад', 'Магазины в отеле', 'Банкетный зал'],
   },
 ];
 
@@ -495,6 +349,7 @@ const HotelServices = () => {
             <List>
               {service.items.map((item, idx) => (
                 <ListItem key={idx} disableGutters>
+
                   <ListItemText primary={item} />
                 </ListItem>
               ))}
@@ -518,11 +373,11 @@ export default function Description() {
           variant="outlined"
           sx={{
             maxWidth: 1024,
-            maxHeight: "100vh",
+            maxHeight: '100vh',
             borderRadius: "md",
             p: 1,
             boxShadow: "lg",
-            overflow: "auto",
+            overflow: 'auto'
           }}
         >
           <ModalClose variant="plain" sx={{ m: 1 }} />
@@ -533,19 +388,19 @@ export default function Description() {
           <Box sx={{ flexGrow: 1, padding: 2 }}>
             <Box display="flex" justifyContent="space-between" mb={2}>
               <Box>
-                <Typography variant="subtitle1" color="textSecondary">
+                <Typography level="title-md" textColor="text.secondary">
                   Обычно в номере
                 </Typography>
-                <Typography variant="body2">
+                <Typography level="body-sm">
                   Сейф, кондиционер, терраса, фен, телевизор, мини-бар, телефон,
                   душ
                 </Typography>
               </Box>
               <Box>
-                <Typography variant="subtitle1" color="textSecondary">
+                <Typography level="title-md" textColor="text.secondary">
                   Как можно питаться в отеле
                 </Typography>
-                <Typography variant="body2">
+                <Typography level="body-sm">
                   Диетическое меню, ресторан, бар, шведский стол, бар у бассейна
                 </Typography>
               </Box>
@@ -563,83 +418,263 @@ export default function Description() {
               <Tab label="ОТЗЫВЫ" />
             </Tabs>
           </Box>
-
-          <Card
-            sx={{
-              display: "flex",
-              padding: 2,
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <Grid container spacing={2} alignItems="center">
-              <Grid item xs={12} md={1}>
-                <Box display="flex" flexDirection="column" alignItems="center">
-                  <Typography variant="h4">29</Typography>
-                  <Typography variant="body2">май, ср</Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={1}>
-                <Stack>
-                  <Typography
-                    variant="body2"
-                    textAlign="center"
-                    sx={{ textWrap: "nowrap" }}
-                  >
-                    7 ночей
-                  </Typography>
-
-                  <Box
-                    sx={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <ArrowBack fontSize="8" />
-
-                    <ArrowForward fontSize="8" />
-                  </Box>
-                </Stack>
-              </Grid>
-              <Grid item xs={12} md={1}>
-                <Box display="flex" flexDirection="column" alignItems="center">
-                  <Typography variant="h4">5</Typography>
-                  <Typography variant="body2">июн, ср</Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Box display="flex" flexDirection="column">
-                  <Typography variant="h6">Улучшенный номер</Typography>
-                  <Typography variant="body2">Все включено, AI</Typography>
-                  <Link> Подробнее о номере →</Link>
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={3}>
-                <Box
-                  display="flex"
-                  flexDirection="column"
-                  alignItems="flex-end"
+          <Grid container spacing={2}>
+            <Grid xs={3}>
+              <Card
+                sx={{
+                  display: 'flex',
+                  padding: 2,
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  boxShadow: '0 10px 35px 0 rgba(5,16,54,.102)',
+                  border: 0
+                }}
+              >
+                <Stack
+                  direction="column"
+                  spacing={1}
+                  width="100%"
                 >
-                  <Typography variant="body2" color="textSecondary">
-                    Let's Fly
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    24 536 ₽/ночь
-                  </Typography>
-                  <Box
-                    sx={{
-                      backgroundColor: "#fff8e1",
-                      padding: "8px 16px",
-                      borderRadius: "4px",
-                      border: "1px solid #ffd700",
-                    }}
+                  <Typography level="title-md">Фильтры</Typography>
+                  <Divider />
+                  <Typography level="body-md">Дата заселения</Typography>
+                  <Grid
+                    container
+                    spacing={2}
+                    alignItems="center"
+                    rowGap="6px"
                   >
-                    <Typography variant="h6" color="primary">
-                      от 171 747 ₽
-                    </Typography>
-                  </Box>
-                </Box>
-              </Grid>
+                    <Grid xs={12} md={6} display="flex" justifyContent="center" p="0">
+                      <Button
+                        variant="outlined"
+                        sx={{
+                          p: 0.3
+                        }}
+                      >
+                        <Stack direction='column'>
+                          <Typography level="body-xs" fontSize='12px'>
+                            15 июн, сб
+                          </Typography>
+                          <Typography level="body-xs" fontSize='10px'>
+                            от 135 089 Р
+                          </Typography>
+                          <Typography level="body-xs" fontSize='10px'>
+                            от 19 299 Р/ночь
+                          </Typography>
+                        </Stack>
+                      </Button>
+                    </Grid>
+                    <Grid xs={12} md={6} display="flex" justifyContent="center" p="0">
+                      <Button
+                        variant="outlined"
+                        sx={{
+                          p: 0.3
+                        }}
+                      >
+                        <Stack direction='column'>
+                          <Typography level="body-xs" fontSize='12px'>
+                            15 июн, сб
+                          </Typography>
+                          <Typography level="body-xs" fontSize='10px'>
+                            от 135 089 Р
+                          </Typography>
+                          <Typography level="body-xs" fontSize='10px'>
+                            от 19 299 Р/ночь
+                          </Typography>
+                        </Stack>
+                      </Button>
+                    </Grid>
+                    <Grid xs={12} md={6} display="flex" justifyContent="center" p="0">
+                      <Button
+                        variant="outlined"
+                        sx={{
+                          p: 0.3
+                        }}
+                      >
+                        <Stack direction='column'>
+                          <Typography level="body-xs" fontSize='12px'>
+                            15 июн, сб
+                          </Typography>
+                          <Typography level="body-xs" fontSize='10px'>
+                            от 135 089 Р
+                          </Typography>
+                          <Typography level="body-xs" fontSize='10px'>
+                            от 192 299 Р/ночь
+                          </Typography>
+                        </Stack>
+                      </Button>
+                    </Grid>
+                  </Grid>
+
+                  <Divider />
+
+                  <Typography level="body-md">Количество ночей</Typography>
+                  <Grid
+                    container
+                    spacing={2}
+                    alignItems="center"
+                  >
+                    <Grid xs={12} md={6} display="flex" justifyContent="center" p="0">
+                      <Button
+                        variant="outlined"
+                        sx={{
+                          p: 0.5
+                        }}
+                      >
+                        <Stack direction='column'>
+                          <Stack direction="row" spacing={1}>
+                            <NightsStay fontSize="8" />
+                            <Typography level="title-sm" fontSize='12px'>
+                              7 ночей
+                            </Typography>
+                          </Stack>
+                          <Typography level="body-xs" fontSize='10px'>
+                            от 192 299 Р/ночь
+                          </Typography>
+                        </Stack>
+                      </Button>
+                    </Grid>
+                    <Grid xs={12} md={6} display="flex" justifyContent="center" p="0">
+                      <Button
+                        variant="outlined"
+                        sx={{
+                          p: 0.5
+                        }}
+                      >
+                        <Stack direction='column'>
+                          <Stack direction="row" spacing={1}>
+                            <NightsStay fontSize="8" />
+                            <Typography level="title-sm" fontSize='12px'>
+                              8 ночей
+                            </Typography>
+                          </Stack>
+                          <Typography level="body-xs" fontSize='10px'>
+                            от 192 299 Р/ночь
+                          </Typography>
+                        </Stack>
+                      </Button>
+                    </Grid>
+                  </Grid>
+
+                  <Divider />
+
+                  <Typography level="body-md">Тип номера</Typography>
+                  <Stack>
+                    <Checkbox label='Улучшенный номер' size="sm" />
+                    <Typography level="body-xs" pl="32px">от 123 456 Р</Typography>
+                  </Stack>
+                  <Stack>
+                    <Checkbox label='Улучшенный номер с видом на бассейн' size="sm" />
+                    <Typography level="body-xs" pl="32px">от 123 456 Р</Typography>
+                  </Stack>
+                  <Stack>
+                    <Checkbox label='Улучшенный номер с видом на море' size="sm" />
+                    <Typography level="body-xs" pl="32px">от 123 456 Р</Typography>
+                  </Stack>
+                  <Stack>
+                    <Checkbox label='Семейный номер' size="sm" />
+                    <Typography level="body-xs" pl="32px">от 123 456 Р</Typography>
+                  </Stack>
+                  <Stack>
+                    <Checkbox label='Полулюкс' size="sm" />
+                    <Typography level="body-xs" pl="32px">от 123 456 Р</Typography>
+                  </Stack>
+                  <Stack>
+                    <Checkbox label='Sea View' size="sm" />
+                    <Typography level="body-xs" pl="32px">от 123 456 Р</Typography>
+                  </Stack>
+
+                  <Divider />
+
+                  <Stack>
+                    <Checkbox label='Туры с онлайн-оплатой' size="sm" />
+                    <Typography level="body-xs" pl="32px">от 123 456 Р</Typography>
+                  </Stack>
+
+                  <Divider />
+
+                  <Typography level="body-md">Туроператор</Typography>
+                </Stack>
+              </Card>
             </Grid>
-          </Card>
-          <Stack direction="row" gap={1}>
+            <Grid xs={9}>
+              <Card
+                sx={{
+                  display: "flex",
+                  padding: 2,
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  boxShadow: '0 10px 35px 0 rgba(5,16,54,.102)',
+                  border: 0
+                }}
+              >
+                <Grid container spacing={2} alignItems="center" width="100%" flexGrow="1">
+                  <Grid xs={12} md={2}>
+                    <Box display="flex" flexDirection="column" alignItems="center">
+                      <Typography level="h1">29</Typography>
+                      <Typography level="body-sm">май, ср</Typography>
+                    </Box>
+                  </Grid>
+                  <Grid xs={12} md={1}>
+                    <Stack>
+                      <Typography
+                        level="body-sm"
+                        textAlign="center"
+                        sx={{ textWrap: "nowrap" }}
+                      >
+                        7 ночей
+                      </Typography>
+
+                      <Box
+                        sx={{ display: "flex", justifyContent: "space-between" }}
+                      >
+                        <ArrowBack fontSize="8" />
+
+                        <ArrowForward fontSize="8" />
+                      </Box>
+                    </Stack>
+                  </Grid>
+                  <Grid xs={12} md={2}>
+                    <Box display="flex" flexDirection="column" alignItems="center">
+                      <Typography level="h1">5</Typography>
+                      <Typography level="body-sm">июн, ср</Typography>
+                    </Box>
+                  </Grid>
+                  <Grid xs={12} md={4}>
+                    <Box display="flex" flexDirection="column">
+                      <Typography level="h3">Улучшенный номер</Typography>
+                      <Typography level="body-sm">Все включено, AI</Typography>
+                      <Link> Подробнее о номере →</Link>
+                    </Box>
+                  </Grid>
+                  <Grid xs={12} md={3}>
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      alignItems="flex-end"
+                    >
+                      <Typography level="body-md" textColor="text.secondary">
+                        Let's Fly
+                      </Typography>
+                      <Typography level="body-md" textColor="text.secondary">
+                        24 536 ₽/ночь
+                      </Typography>
+                      <Box
+                        sx={{
+                          padding: "8px 16px",
+                        }}
+                      >
+                        <Typography level="title-lg" color="primary">
+                          от 171 747 ₽
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Card>
+            </Grid>
+          </Grid>
+          <Stack direction='row' sx={{mt:2}} gap={1}>
             <RoomDetailCard />
             <RoomDetailCard />
             <RoomDetailCard />

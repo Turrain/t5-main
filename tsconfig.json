@@ -20,6 +20,8 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": [  "src/**/*.ts",
+  "src/**/*.tsx",
+  "src/react-swipeable-views-utils.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
