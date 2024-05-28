@@ -1,6 +1,8 @@
 import {
   ArrowBack,
+  ArrowBackIos,
   ArrowForward,
+  ArrowForwardIos,
   BeachAccess,
   BorderBottom,
   BusinessCenter,
@@ -25,7 +27,15 @@ import {
   TransferWithinAStation,
   Wifi,
 } from "@mui/icons-material";
-import { Breadcrumbs, Link, Modal, ModalClose, Sheet, Stack } from "@mui/joy";
+import {
+  Breadcrumbs,
+  IconButton,
+  Link,
+  Modal,
+  ModalClose,
+  Sheet,
+  Stack,
+} from "@mui/joy";
 import {
   Box,
   Button,
@@ -45,8 +55,8 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
-import SwipeableViews from 'react-swipeable-views';
-import { autoPlay } from 'react-swipeable-views-utils';
+import SwipeableViews from "react-swipeable-views";
+import { autoPlay } from "react-swipeable-views-utils";
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 import ImageGrid from "./ImageList";
@@ -210,7 +220,6 @@ const HotelRating = () => {
 const RoomDetailCard = () => {
   const [activeStep, setActiveStep] = React.useState(0);
 
-
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -220,46 +229,76 @@ const RoomDetailCard = () => {
   };
 
   const images = [
-    'https://via.placeholder.com/600x400?text=Image+1',
-    'https://via.placeholder.com/600x400?text=Image+2',
-    'https://via.placeholder.com/600x400?text=Image+3',
+    "https://via.placeholder.com/600x400?text=Image+1",
+    "https://via.placeholder.com/600x400?text=Image+2",
+    "https://via.placeholder.com/600x400?text=Image+3",
+    "https://via.placeholder.com/600x400?text=Image+2",
+    "https://via.placeholder.com/600x400?text=Image+3",
   ];
   const maxSteps = images.length;
   const amenities = [
-    "Ванна", "Душ", "Кондиционер", "Мини-бар",
-    "Стиральная машина", "Телевизор", "Телефон"
+    "Ванна",
+    "Душ",
+    "Кондиционер",
+    "Мини-бар",
+    "Стиральная машина",
+    "Телевизор",
+    "Телефон",
   ];
 
   return (
-    <Card sx={{ maxWidth: 345, margin: 'auto', boxShadow: 3 }}>
-      <AutoPlaySwipeableViews
-        axis="x"
-        index={activeStep}
-        onChangeIndex={(step) => setActiveStep(step)}
-        enableMouseEvents
-      >
-        {images.map((step, index) => (
-          <Box key={index} component="div" sx={{ width: '100%', height: '200px', backgroundImage: `url(${step})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-          </Box>
-        ))}
-      </AutoPlaySwipeableViews>
-      <MobileStepper
-        steps={maxSteps}
-        position="static"
-        activeStep={activeStep}
-        nextButton={
-          <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
-            Next
-            <KeyboardArrowRight />
-          </Button>
-        }
-        backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-            <KeyboardArrowLeft />
-            Back
-          </Button>
-        }
-      />
+    <Card sx={{ maxWidth: 345, margin: "auto", boxShadow: 3 }}>
+      <Box sx={{ position: "relative" }}>
+        <AutoPlaySwipeableViews
+          axis="x"
+          index={activeStep}
+          onChangeIndex={(step) => setActiveStep(step)}
+          enableMouseEvents
+        >
+          {images.map((step, index) => (
+            <Box
+              key={index}
+              component="div"
+              sx={{
+                width: "100%",
+                height: "200px",
+                backgroundImage: `url(${step})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            ></Box>
+          ))}
+        </AutoPlaySwipeableViews>
+        <IconButton
+          sx={{ position: "absolute", top: "45%", left: "1rem" }}
+          onClick={handleBack} disabled={activeStep === 0}
+        ><ArrowBackIos  /></IconButton>
+        
+        <Stack
+          direction="row"
+          sx={{ position: "absolute", bottom: "1rem", width: "100%", gap: 1, px:1 }}
+        >
+          {images.map((e, i) => (
+            <div
+              style={{
+                height: 5,
+                borderRadius: 5,
+                width: `calc(100%/${maxSteps})`,
+                backgroundColor: activeStep + 1 <= i ? "#ddd" : "#fff",
+              }}
+            ></div>
+          ))}
+        </Stack>
+        <IconButton
+          sx={{ position: "absolute", top: "45%", right: "1rem" }}
+          onClick={handleNext}
+          disabled={activeStep === maxSteps - 1}
+        ><ArrowForwardIos  /></IconButton>
+
+      
+      </Box>
+
+   
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           Улучшенный номер
@@ -268,7 +307,9 @@ const RoomDetailCard = () => {
           55 м² • 1 комната • Максимум 3 человека
         </Typography>
         <Typography variant="body2" color="text.secondary" paragraph>
-          Просторный номер с гостиной и спальной зонами, ванной комнатой с душем и ванной, есть балкон/терраса. Комплектация включает кондиционер, сейф, мини-бар, телевизор, телефон, фен, туалетно-косметические...
+          Просторный номер с гостиной и спальной зонами, ванной комнатой с душем
+          и ванной, есть балкон/терраса. Комплектация включает кондиционер,
+          сейф, мини-бар, телевизор, телефон, фен, туалетно-косметические...
         </Typography>
         <Grid container spacing={1}>
           {amenities.map((amenity, index) => (
@@ -336,7 +377,8 @@ const HotelInfo = () => {
           Расположение отеля
         </Typography>
         <Typography variant="body1" gutterBottom>
-          Отель Tamra Beach Resort расположен в 7 км от аэропорта Шарм-Эль-Шейха, в бухте Набк Бей.
+          Отель Tamra Beach Resort расположен в 7 км от аэропорта
+          Шарм-Эль-Шейха, в бухте Набк Бей.
         </Typography>
         <Typography variant="h6" gutterBottom>
           Номерной фонд гостиницы Tamra Beach Resort
@@ -352,67 +394,89 @@ const HotelInfo = () => {
   );
 };
 
-
 const services = [
   {
-    category: 'Питание:',
+    category: "Питание:",
     icon: <Restaurant />,
-    items: ['Диетическое меню', 'Ресторан', 'Бар', 'Шведский стол', 'Бар у бассейна'],
+    items: [
+      "Диетическое меню",
+      "Ресторан",
+      "Бар",
+      "Шведский стол",
+      "Бар у бассейна",
+    ],
   },
   {
-    category: 'Пляж:',
+    category: "Пляж:",
     icon: <BeachAccess />,
-    items: ['Частный пляж', '1-ая пляжная линия', 'Песок жёлтый', 'Галька'],
+    items: ["Частный пляж", "1-ая пляжная линия", "Песок жёлтый", "Галька"],
   },
   {
-    category: 'Удобства в номерах:',
+    category: "Удобства в номерах:",
     icon: <Hotel />,
-    items: ['Сейф', 'Кондиционер', 'Терраса', 'Фен', 'Телевизор', 'Мини-бар', 'Телефон', 'Душ'],
+    items: [
+      "Сейф",
+      "Кондиционер",
+      "Терраса",
+      "Фен",
+      "Телевизор",
+      "Мини-бар",
+      "Телефон",
+      "Душ",
+    ],
   },
   {
-    category: 'Интернет:',
+    category: "Интернет:",
     icon: <Wifi />,
-    items: ['Wi-Fi'],
+    items: ["Wi-Fi"],
   },
   {
-    category: 'Спорт:',
+    category: "Спорт:",
     icon: <SportsSoccer />,
-    items: ['Настольный теннис', 'Волейбол', 'Футбол', 'Групповые занятия'],
+    items: ["Настольный теннис", "Волейбол", "Футбол", "Групповые занятия"],
   },
   {
-    category: 'Бассейн:',
+    category: "Бассейн:",
     icon: <Pool />,
-    items: ['Крытый бассейн', 'Открытый бассейн', 'Бассейн с подогревом'],
+    items: ["Крытый бассейн", "Открытый бассейн", "Бассейн с подогревом"],
   },
   {
-    category: 'Услуги для детей:',
+    category: "Услуги для детей:",
     icon: <ChildCare />,
-    items: ['Детская площадка', 'Детский клуб', 'Детский бассейн'],
+    items: ["Детская площадка", "Детский клуб", "Детский бассейн"],
   },
   {
-    category: 'Здоровье и красота:',
+    category: "Здоровье и красота:",
     icon: <HealthAndSafety />,
-    items: ['Массаж', 'Сауна', 'Спа и оздоровительный центр', 'Паровая баня', 'Гидромассажная ванна', 'Салон красоты', 'Кабинет врача'],
+    items: [
+      "Массаж",
+      "Сауна",
+      "Спа и оздоровительный центр",
+      "Паровая баня",
+      "Гидромассажная ванна",
+      "Салон красоты",
+      "Кабинет врача",
+    ],
   },
   {
-    category: 'Транспорт:',
+    category: "Транспорт:",
     icon: <DirectionsCar />,
-    items: ['Трансфер', 'Аренда лимузина'],
+    items: ["Трансфер", "Аренда лимузина"],
   },
   {
-    category: 'Бизнес-услуги:',
+    category: "Бизнес-услуги:",
     icon: <BusinessCenter />,
-    items: ['Конференц-зал'],
+    items: ["Конференц-зал"],
   },
   {
-    category: 'Услуги по чистке одежды:',
+    category: "Услуги по чистке одежды:",
     icon: <LocalLaundryService />,
-    items: ['Прачечная'],
+    items: ["Прачечная"],
   },
   {
-    category: 'Общие услуги:',
+    category: "Общие услуги:",
     icon: <LocalOffer />,
-    items: ['Банкомат', 'Сад', 'Магазины в отеле', 'Банкетный зал'],
+    items: ["Банкомат", "Сад", "Магазины в отеле", "Банкетный зал"],
   },
 ];
 
@@ -431,7 +495,6 @@ const HotelServices = () => {
             <List>
               {service.items.map((item, idx) => (
                 <ListItem key={idx} disableGutters>
-                 
                   <ListItemText primary={item} />
                 </ListItem>
               ))}
@@ -455,18 +518,18 @@ export default function Description() {
           variant="outlined"
           sx={{
             maxWidth: 1024,
-            maxHeight: '100vh',
+            maxHeight: "100vh",
             borderRadius: "md",
             p: 1,
             boxShadow: "lg",
-            overflow: 'auto'
+            overflow: "auto",
           }}
         >
           <ModalClose variant="plain" sx={{ m: 1 }} />
 
           <HotelRating />
           <ImageGrid />
-        
+
           <Box sx={{ flexGrow: 1, padding: 2 }}>
             <Box display="flex" justifyContent="space-between" mb={2}>
               <Box>
@@ -500,6 +563,7 @@ export default function Description() {
               <Tab label="ОТЗЫВЫ" />
             </Tabs>
           </Box>
+
           <Card
             sx={{
               display: "flex",
@@ -575,13 +639,13 @@ export default function Description() {
               </Grid>
             </Grid>
           </Card>
-          <Stack direction='row' gap={1}>
-          <RoomDetailCard/>
-          <RoomDetailCard/>
-          <RoomDetailCard/>
+          <Stack direction="row" gap={1}>
+            <RoomDetailCard />
+            <RoomDetailCard />
+            <RoomDetailCard />
           </Stack>
-                    <HotelInfo/>
-                    <HotelServices/>
+          <HotelInfo />
+          <HotelServices />
         </Sheet>
       </Modal>
     </>
