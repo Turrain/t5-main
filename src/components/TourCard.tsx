@@ -1,5 +1,6 @@
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
-import { Box, Card, Grid, Link, Stack, Typography } from "@mui/joy";
+import { Box, Card, Grid, Link, Stack, Typography ,Chip} from "@mui/joy";
+
 
 export default function TourCard() {
   return (
@@ -9,7 +10,7 @@ export default function TourCard() {
         padding: 2,
         alignItems: "center",
         justifyContent: "space-between",
-        boxShadow: "0 10px 35px 0 rgba(5,16,54,.102)",
+        boxShadow: "0",
         border: 0,
       }}
     >
@@ -20,7 +21,7 @@ export default function TourCard() {
             <Typography level="body-sm">май, ср</Typography>
           </Box>
         </Grid>
-        <Grid xs={12} md={1}>
+        <Grid xs={12} md={1} >
           <Stack>
             <Typography
               level="body-sm"
@@ -30,10 +31,7 @@ export default function TourCard() {
               7 ночей
             </Typography>
 
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <ArrowBack fontSize="8" />
-              <ArrowForward fontSize="8" />
-            </Box>
+           
           </Stack>
         </Grid>
         <Grid xs={12} md={2}>
@@ -44,9 +42,10 @@ export default function TourCard() {
         </Grid>
         <Grid xs={12} md={4}>
           <Box display="flex" flexDirection="column">
-            <Typography level="h3">Улучшенный номер</Typography>
-            <Typography level="body-sm">Все включено, AI</Typography>
-            <Link> Подробнее о номере →</Link>
+            <Typography level="title-md">Улучшенный номер</Typography>
+            <Typography gutterBottom level="body-xs">Все включено, AI</Typography>
+            <Link ><Typography level="body-xs">Подробнее о номере →</Typography></Link>
+             
           </Box>
         </Grid>
         <Grid xs={12} md={3}>
@@ -54,18 +53,16 @@ export default function TourCard() {
             <Typography level="body-md" textColor="text.secondary">
               Let's Fly
             </Typography>
-            <Typography level="body-md" textColor="text.secondary">
+            <Typography gutterBottom level="body-sm" textColor="text.secondary">
               24 536 ₽/ночь
             </Typography>
-            <Box
-              sx={{
-                padding: "8px 16px",
-              }}
-            >
-              <Typography level="title-lg" color="primary">
+            <Chip variant="solid" color="primary">
+
+           
+        
                 от 171 747 ₽
-              </Typography>
-            </Box>
+        
+              </Chip>
           </Box>
         </Grid>
       </Grid>

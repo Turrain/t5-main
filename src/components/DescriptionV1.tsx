@@ -52,6 +52,7 @@ import TourFilters from "./TourFilters";
 import TourCard from "./TourCard";
 import HotelInfo from "./HotelInfo";
 import HotelServices from "./HotelServices";
+import HotelRoomCarousel from "./HotelRoomContainer";
 
 const DateFilter = ({ dates }) => (
   <Box sx={{ mb: 2 }}>
@@ -217,6 +218,7 @@ export default function Description() {
         open={true}
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
+        <Stack direction='row' sx={{position:'relative'}} gap={2}>
         <Sheet
           variant="outlined"
           sx={{
@@ -233,7 +235,7 @@ export default function Description() {
           <HotelRating />
           <ImageGrid />
 
-          <Box sx={{ flexGrow: 1, padding: 2 }}>
+          <Box sx={{ flexGrow: 1, padding: 2,  }}>
             <Box display="flex" justifyContent="space-between" mb={2}>
               <Box>
                 <Typography level="title-md" textColor="text.secondary">
@@ -253,20 +255,9 @@ export default function Description() {
                 </Typography>
               </Box>
             </Box>
-            <Tabs
-              value={0}
-              indicatorColor="primary"
-              textColor="primary"
-              centered
-            >
-              <Tab label="ТУРЫ" />
-              <Tab label="НОМЕРА" />
-              <Tab label="УСЛУГИ" />
-              <Tab label="НА КАРТЕ" />
-              <Tab label="ОТЗЫВЫ" />
-            </Tabs>
+           
           </Box>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} sx={{backgroundColor: '#F3F9FF'}}>
             <Grid xs={3}>
             <TourFilters/>
             </Grid>
@@ -282,6 +273,7 @@ export default function Description() {
               
             </Grid>
           </Grid>
+          <HotelRoomCarousel />
           <Stack direction='row' sx={{mt:2}} gap={1}>
             <RoomDetailCard />
             <RoomDetailCard />
@@ -290,6 +282,32 @@ export default function Description() {
           <HotelInfo />
           <HotelServices />
         </Sheet>
+        <Sheet   variant="outlined"
+          sx={{
+            margin: 'auto',
+            maxWidth: 1024,
+         
+            borderRadius: "md",
+            p: 1,
+            boxShadow: "lg",
+            overflow: 'auto'
+          }}>
+           <Tabs
+              value={0}
+              indicatorColor="primary"
+              textColor="primary"
+              centered
+              orientation="vertical"
+            >
+              <Tab label="ТУРЫ" />
+              <Tab label="НОМЕРА" />
+              <Tab label="УСЛУГИ" />
+              <Tab label="НА КАРТЕ" />
+              <Tab label="ОТЗЫВЫ" />
+            </Tabs>
+        </Sheet>
+        </Stack>
+        
       </Modal>
     </>
   );

@@ -3,6 +3,7 @@ import { Box, Card, CardContent, Grid, IconButton, Stack, Typography, Chip, Butt
 import { SetStateAction, useState } from "react";
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
+import { ShowMoreContainer } from "./HotelInfo";
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const RoomDetailCard = () => {
@@ -95,15 +96,19 @@ const RoomDetailCard = () => {
           <Typography gutterBottom level="body-xs" color="neutral">
             55 м² • 1 комната • Максимум 3 человека
           </Typography>
+          <ShowMoreContainer maxHeight={18}>
+
+      
           <Typography level="body-sm" color="neutral" paragraph>
             Просторный номер с гостиной и спальной зонами, ванной комнатой с душем
             и ванной, есть балкон/терраса. Комплектация включает кондиционер,
             сейф, мини-бар, телевизор, телефон, фен, туалетно-косметические...
           </Typography>
+          </ShowMoreContainer>
           <Grid container spacing={1}>
             {amenities.map((amenity, index) => (
               <Grid  key={index}>
-                <Chip size="sm"> {amenity}
+                <Chip variant="soft" color="primary" size="sm"> {amenity}
                     </Chip>
               </Grid>
             ))}

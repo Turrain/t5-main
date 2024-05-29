@@ -1,9 +1,9 @@
 import { BeachAccess, Wifi, TransferWithinAStation, ChildCare, LocalHospital, Lock } from "@mui/icons-material";
-import { Typography, Box, Grid, Button, List, ListItem } from "@mui/joy";
+import { Typography, Box, Grid, Button, List, ListItem, Link } from "@mui/joy";
 import React from "react";
 
-const ShowMoreContainer = ({ children, maxHeight }) => {
-    const [showMore, setShowMore] = React.useState(false);
+export const ShowMoreContainer = ({ children, maxHeight, defaultOpen = false }) => {
+    const [showMore, setShowMore] = React.useState(defaultOpen);
     const contentRef = React.useRef(null);
     const [height, setHeight] = React.useState(maxHeight);
 
@@ -31,9 +31,9 @@ const ShowMoreContainer = ({ children, maxHeight }) => {
             >
                 {children}
             </Box>
-            <Button variant="plain" onClick={handleClick} sx={{ mt: 2, left: '45%' }}>
+            <Link level="body-sm" onClick={handleClick} sx={{width: '100%'}} >
                 {showMore ? 'Скрыть' : 'Подробнее'}
-            </Button>
+            </Link>
         </>
     );
 };

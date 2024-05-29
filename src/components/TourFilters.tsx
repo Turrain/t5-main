@@ -10,7 +10,7 @@ export default function TourFilters(){
           padding: 2,
           alignItems: 'center',
           justifyContent: 'space-between',
-          boxShadow: '0 10px 35px 0 rgba(5,16,54,.102)',
+          boxShadow: '0 ',
           border: 0
         }}
       >
