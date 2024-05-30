@@ -15,13 +15,13 @@ export default function TourCard() {
       }}
     >
       <Grid container spacing={2} alignItems="center" width="100%" flexGrow="1">
-        <Grid xs={12} md={2}>
+        <Grid xs={4} md={2}>
           <Box display="flex" flexDirection="column" alignItems="center">
             <Typography level="h1">29</Typography>
             <Typography level="body-sm">май, ср</Typography>
           </Box>
         </Grid>
-        <Grid xs={12} md={1} >
+        <Grid xs={4} md={1} >
           <Stack>
             <Typography
               level="body-sm"
@@ -34,7 +34,7 @@ export default function TourCard() {
            
           </Stack>
         </Grid>
-        <Grid xs={12} md={2}>
+        <Grid xs={4} md={2}>
           <Box display="flex" flexDirection="column" alignItems="center">
             <Typography level="h1">5</Typography>
             <Typography level="body-sm">июн, ср</Typography>

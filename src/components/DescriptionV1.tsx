@@ -26,7 +26,21 @@ import {
   TransferWithinAStation,
   Wifi,
 } from "@mui/icons-material";
-import { Breadcrumbs, Checkbox, Divider, Link, Modal, ModalClose, Sheet, Stack, Button, Typography, Grid, Card, CardContent } from "@mui/joy";
+import {
+  Breadcrumbs,
+  Checkbox,
+  Divider,
+  Link,
+  Modal,
+  ModalClose,
+  Sheet,
+  Stack,
+  Button,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+} from "@mui/joy";
 import {
   Box,
   Chip,
@@ -40,8 +54,8 @@ import {
   Tab,
   Tabs,
 } from "@mui/material";
-import SwipeableViews from 'react-swipeable-views';
-import { autoPlay } from 'react-swipeable-views-utils';
+import SwipeableViews from "react-swipeable-views";
+import { autoPlay } from "react-swipeable-views-utils";
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 import ImageGrid from "./ImageList";
@@ -52,7 +66,6 @@ import TourFilters from "./TourFilters";
 import TourCard from "./TourCard";
 import HotelInfo from "./HotelInfo";
 import HotelServices from "./HotelServices";
-import HotelRoomCarousel from "./HotelRoomContainer";
 
 const DateFilter = ({ dates }) => (
   <Box sx={{ mb: 2 }}>
@@ -175,37 +188,48 @@ const RoomList = () => {
 
 const HotelRating = () => {
   return (
-    <Box sx={{ padding: 1 }}>
-      <Box display="flex" alignItems="center">
-        <Rating value={5} readOnly />
-        <Typography variant="h6" component="div" sx={{ ml: 1 }}>
-          Отель Tamra Beach Resort
-        </Typography>
+    <>
+      <Box
+        sx={{
+          backgroundColor: "var(--joy-palette-primary-solidBg)",
+          py: 1,
+          mb: {xs: 0, sm: 1},
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Box
+            sx={{
+              px: 3,
+              py: 1,
+              borderRadius: 20,
+              backgroundColor: "rgba(0,0,0,0.2)",
+              color: "#fff",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <Typography sx={{ color: "#fff", fontSize: "14px", textAlign: 'center' }}>
+              Отель Tamra Beach Resort
+            </Typography>
+
+            <Typography sx={{ color: "#fff", fontSize: "10px",textAlign: 'center' }}>
+             Набк Бей, Египет
+            </Typography>
+          </Box>
+        </Box>
       </Box>
-      <Box display="flex" alignItems="center" mt={1}>
-        <LocationOn fontSize="small" />
-        <Typography variant="body2" color="text.secondary" sx={{ ml: 0.5 }}>
-          Набк Бей, Египет
-        </Typography>
-        <Chip
-          label="Очень популярный"
-          color="primary"
-          size="small"
-          sx={{ ml: 1 }}
-        />
-        <Stack direction="row" sx={{ alignItems: "center", gap: 1 }}>
-          <Chip
-            icon={<Star />}
-            label="9.1"
-            color="success"
-            size="small"
-            sx={{ ml: 1 }}
-          />
-          <Typography fontSize={10}>193 оценки</Typography>
-        </Stack>
-      </Box>
-      <Box display="flex" alignItems="center" mt={1}></Box>
-    </Box>
+
+     
+    </>
   );
 };
 
@@ -218,81 +242,85 @@ export default function Description() {
         open={true}
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
-        <Stack direction='row' sx={{position:'relative'}} gap={2}>
-        <Sheet
-          variant="outlined"
-          sx={{
-            maxWidth: 1024,
-            maxHeight: '100vh',
-            borderRadius: "md",
-            p: 1,
-            boxShadow: "lg",
-            overflow: 'auto'
-          }}
-        >
-          <ModalClose variant="plain" sx={{ m: 1 }} />
+        <Stack direction="row" sx={{ position: "relative" }} gap={2}>
+          <Sheet
+            variant="outlined"
+            sx={{
+              maxWidth: 1024,
+              maxHeight: "100vh",
+              borderRadius: "md",
+              p: 0,
+              boxShadow: "lg",
+              overflow: "auto",
+              scrollbarWidth: 'thin',
+            }}
+          >
+            <ModalClose variant="solid" color="primary" sx={{ m: 1 }} />
 
-          <HotelRating />
-          <ImageGrid />
+            <HotelRating />
+            <ImageGrid />
 
-          <Box sx={{ flexGrow: 1, padding: 2,  }}>
-            <Box display="flex" justifyContent="space-between" mb={2}>
-              <Box>
-                <Typography level="title-md" textColor="text.secondary">
-                  Обычно в номере
-                </Typography>
-                <Typography level="body-sm">
-                  Сейф, кондиционер, терраса, фен, телевизор, мини-бар, телефон,
-                  душ
-                </Typography>
-              </Box>
-              <Box>
-                <Typography level="title-md" textColor="text.secondary">
-                  Как можно питаться в отеле
-                </Typography>
-                <Typography level="body-sm">
-                  Диетическое меню, ресторан, бар, шведский стол, бар у бассейна
-                </Typography>
+            <Box sx={{ flexGrow: 1, padding: 2 }}>
+              <Box display="flex" justifyContent="space-between" mb={2}>
+                <Box>
+                  <Typography level="title-md" textColor="text.secondary">
+                    Обычно в номере
+                  </Typography>
+                  <Typography level="body-sm">
+                    Сейф, кондиционер, терраса, фен, телевизор, мини-бар,
+                    телефон, душ
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography level="title-md" textColor="text.secondary">
+                    Как можно питаться в отеле
+                  </Typography>
+                  <Typography level="body-sm">
+                    Диетическое меню, ресторан, бар, шведский стол, бар у
+                    бассейна
+                  </Typography>
+                </Box>
               </Box>
             </Box>
-           
-          </Box>
-          <Grid container spacing={2} sx={{backgroundColor: '#F3F9FF'}}>
-            <Grid xs={3}>
-            <TourFilters/>
+            <Grid container spacing={2} sx={{ backgroundColor: "#F3F9FF" }}>
+              <Grid xs={3} sx={{ display: { xs: "none", sm: "flex" } }}>
+                <TourFilters />
+              </Grid>
+              <Grid xs={12} sm={9}>
+                <Stack gap={2}>
+                  <TourCard />
+                  <TourCard />
+                  <TourCard />
+                  <TourCard />
+                  <TourCard />
+                </Stack>
+              </Grid>
             </Grid>
-            <Grid xs={9}>
-              <Stack gap={2}>
-              <TourCard/>
-              <TourCard/>
-              <TourCard/>
-              <TourCard/>
-              <TourCard/>
-              </Stack>
-             
-              
-            </Grid>
-          </Grid>
-          <HotelRoomCarousel />
-          <Stack direction='row' sx={{mt:2}} gap={1}>
-            <RoomDetailCard />
-            <RoomDetailCard />
-            <RoomDetailCard />
-          </Stack>
-          <HotelInfo />
-          <HotelServices />
-        </Sheet>
-        <Sheet   variant="outlined"
-          sx={{
-            margin: 'auto',
-            maxWidth: 1024,
-         
-            borderRadius: "md",
-            p: 1,
-            boxShadow: "lg",
-            overflow: 'auto'
-          }}>
-           <Tabs
+
+            <Stack
+              sx={{ mt: 2, p:1, flexDirection: { xs: "column", md: "row" } }}
+              gap={1}
+            >
+              <RoomDetailCard />
+              <RoomDetailCard />
+              <RoomDetailCard />
+            </Stack>
+            <HotelInfo />
+            <HotelServices />
+          </Sheet>
+          <Sheet
+            variant="outlined"
+            sx={{
+              margin: "auto",
+              maxWidth: 1024,
+              display: { xs: "none", lg: "block" },
+              borderRadius: "md",
+              p: 1,
+              boxShadow: "lg",
+              overflow: "auto",
+            }}
+          >
+            <Tabs
               value={0}
               indicatorColor="primary"
               textColor="primary"
@@ -305,9 +333,8 @@ export default function Description() {
               <Tab label="НА КАРТЕ" />
               <Tab label="ОТЗЫВЫ" />
             </Tabs>
-        </Sheet>
+          </Sheet>
         </Stack>
-        
       </Modal>
     </>
   );

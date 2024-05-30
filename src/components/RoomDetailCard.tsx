@@ -36,8 +36,8 @@ const RoomDetailCard = () => {
     ];
   
     return (
-      <Card sx={{ maxWidth: 345, margin: "auto", boxShadow: 3 }}>
-         <CardOverflow sx={{p:0 }}>
+      <Card variant="soft" sx={{ maxWidth: {xs: '100%', sm: 345}, margin: "auto", boxShadow: 3, p:0.5, px:1 }}>
+         <CardOverflow sx={{p:0,  }}>
         <Box sx={{ position: "relative" }}>
           <AutoPlaySwipeableViews
             axis="x"
@@ -55,6 +55,7 @@ const RoomDetailCard = () => {
                   backgroundImage: `url(${step})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
+                  borderRadius: 10
                 }}
               ></Box>
             ))}

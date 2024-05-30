@@ -31,7 +31,7 @@ export const ShowMoreContainer = ({ children, maxHeight, defaultOpen = false }) 
             >
                 {children}
             </Box>
-            <Link level="body-sm" onClick={handleClick} sx={{width: '100%'}} >
+            <Link level="body-sm" onClick={handleClick} sx={{borderTop: '1px solid #ddd', width: '100%'}} >
                 {showMore ? 'Скрыть' : 'Подробнее'}
             </Link>
         </>
@@ -48,37 +48,37 @@ export default function HotelInfo() {
             >
               
                 <Grid container spacing={2} justifyContent="center">
-                    <Grid>
+                    <Grid xs={4}>
                         <Box textAlign="center">
                             <BeachAccess fontSize="large" color="primary" />
                             <Typography>1-ая пляжная линия</Typography>
                         </Box>
                     </Grid>
-                    <Grid>
+                    <Grid xs={4}>
                         <Box textAlign="center">
                             <Wifi fontSize="large" color="primary" />
                             <Typography>Wi-Fi</Typography>
                         </Box>
                     </Grid>
-                    <Grid>
+                    <Grid xs={4}>
                         <Box textAlign="center">
                             <TransferWithinAStation fontSize="large" color="primary" />
                             <Typography>Трансфер</Typography>
                         </Box>
                     </Grid>
-                    <Grid>
+                    <Grid xs={4}>
                         <Box textAlign="center">
                             <ChildCare fontSize="large" color="primary" />
                             <Typography>Детский бассейн</Typography>
                         </Box>
                     </Grid>
-                    <Grid>
+                    <Grid xs={4}>
                         <Box textAlign="center">
                             <LocalHospital fontSize="large" color="primary" />
                             <Typography>Кабинет врача</Typography>
                         </Box>
                     </Grid>
-                    <Grid>
+                    <Grid xs={4}>
                         <Box textAlign="center">
                             <Lock fontSize="large" color="primary" />
                             <Typography>Сейф</Typography>
@@ -86,13 +86,13 @@ export default function HotelInfo() {
                     </Grid>
                 </Grid>
                 <Box mt={4}>
-                    <Typography level="h4" gutterBottom>
+                    <Typography level="title-lg" gutterBottom>
                         Расположение отеля
                     </Typography>
-                    <Typography level="body-md" gutterBottom>
+                    <Typography level="body-sm" gutterBottom>
                         Отель Tamra Beach Resort расположен в 7 км от аэропорта Шарм-Эль-Шейха, в бухте Набк Бей.
                     </Typography>
-                    <Typography level="h4" gutterBottom>
+                    <Typography level="title-lg" gutterBottom>
                         Номерной фонд гостиницы Tamra Beach Resort
                     </Typography>
                     <Typography level="body-md" gutterBottom>

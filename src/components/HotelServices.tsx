@@ -1,5 +1,5 @@
-import { BeachAccess, Restaurant, Hotel, Wifi, SportsSoccer, Pool, ChildCare, HealthAndSafety, DirectionsCar, BusinessCenter, LocalLaundryService, LocalOffer } from '@mui/icons-material';
-import { Box, Typography, Grid, List, ListItem } from '@mui/joy';
+import { BeachAccess, Restaurant, Hotel, Wifi, SportsSoccer, Pool, ChildCare, HealthAndSafety, DirectionsCar, BusinessCenter, LocalLaundryService, LocalOffer, ExpandMore } from '@mui/icons-material';
+import { Box, Typography, Grid, List, ListItem, AccordionSummary, AccordionDetails, Accordion, AccordionGroup } from '@mui/joy';
 
 const services = [
     {
@@ -67,25 +67,31 @@ const services = [
 export default function HotelServices() {
     return (
         <Box sx={{ padding: 3 }}>
-            <Typography level='title-md' gutterBottom>
-                Все услуги отеля
-            </Typography>
-            <Grid container spacing={4}>
-                {services.map((service, index) => (
-                    <Grid xs={12} sm={6} md={4} key={index}>
-                        <Typography level='title-md' gutterBottom>
-                            {service.icon} {service.category}
-                        </Typography>
-                        <List size='sm'>
-                            {service.items.map((item, idx) => (
-                                <ListItem key={idx} disableGutters>
-                                    <Typography>{item}</Typography>
-                                </ListItem>
-                            ))}
-                        </List>
-                    </Grid>
-                ))}
-            </Grid>
-        </Box>
+        
+        <AccordionGroup>
+        <Grid container spacing={4}>
+            {services.map((service, index) => (
+                <Grid xs={12} sm={6} md={4} key={index}>
+                    <Accordion>
+                        <AccordionSummary >
+                            <Typography sx={{ display: 'flex', alignItems: 'center' }}>
+                                {service.icon} {service.category}
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <List size='sm'>
+                                {service.items.map((item, idx) => (
+                                    <ListItem key={idx} disableGutters>
+                                        <Typography>{item}</Typography>
+                                    </ListItem>
+                                ))}
+                            </List>
+                        </AccordionDetails>
+                    </Accordion>
+                </Grid>
+            ))}
+        </Grid>
+        </AccordionGroup>
+    </Box>
     );
 };
