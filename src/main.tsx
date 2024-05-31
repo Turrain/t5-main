@@ -49,19 +49,19 @@ export const useStyles = () => {
 // };
 
 export const App2 = ({ curstomStyles }: { curstomStyles: {} }) => {
-const [subscription, setSubscription] = React.useState(false);
-useEffect(()=> {
-  const fetchSubscription = async () => {
-    try{
-      const res = await (await fetch("http://localhost:3000/subscriptions/getByDomain")).json()
-      console.log(res)
-      setSubscription(res)
-    }catch(error){
-      console.error("Error: ", error)
-    }
-  }
-  fetchSubscription();
-}, [])
+// const [subscription, setSubscription] = React.useState(false);
+// useEffect(()=> {
+//   const fetchSubscription = async () => {
+//     try{
+//       const res = await (await fetch("http://localhost:3000/subscriptions/getByDomain")).json()
+//       console.log(res)
+//       setSubscription(res)
+//     }catch(error){
+//       console.error("Error: ", error)
+//     }
+//   }
+//   fetchSubscription();
+// }, [])
 
   return (
     <MaterialCssVarsProvider

@@ -233,13 +233,14 @@ const HotelRating = () => {
   );
 };
 
-export default function Description() {
+export default function Description({opened, setOpened}) {
   return (
     <>
       <Modal
         aria-labelledby="modal-title"
         aria-describedby="modal-desc"
-        open={true}
+        open={opened}
+        onClose={()=>setOpened(false)}
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
         <Stack direction="row" sx={{ position: "relative" }} gap={2}>

@@ -20,6 +20,7 @@ import data from "./components/api/tours.json";
 import HotelGrid from "./components/HotelGrid";
 import TravelGrid from "./components/TravelGrid";
 import Description from "./components/DescriptionV1";
+import HotelRow from "./components/HotelRow";
 
 
 function App() {
@@ -80,10 +81,10 @@ function App() {
             </Stack>
           </Box>
           <Box sx={{ mt: 10 }}>
-           
+              <HotelRow/>
             <HotelGrid/>
-            <TravelGrid/>
-            <Description />
+           
+          
 
             {/* <Card>
       <CardMedia

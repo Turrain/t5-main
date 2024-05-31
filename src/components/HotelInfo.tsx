@@ -40,13 +40,13 @@ export const ShowMoreContainer = ({ children, maxHeight, defaultOpen = false }) 
 
 export default function HotelInfo() {
     return (
-        <ShowMoreContainer maxHeight="300px">
+       
             <Box
                 sx={{
                     padding: 3,
                 }}
             >
-              
+               <ShowMoreContainer maxHeight="300px">
                 <Grid container spacing={2} justifyContent="center">
                     <Grid xs={4}>
                         <Box textAlign="center">
@@ -242,7 +242,8 @@ export default function HotelInfo() {
                         </ListItem>
                     </List>
                 </Box>
+                </ShowMoreContainer>
             </Box>
-        </ShowMoreContainer>
+       
     );
 };
