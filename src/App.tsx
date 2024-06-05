@@ -1,15 +1,10 @@
-
 import Stack from "@mui/material/Stack";
 import { Box, Container, Divider } from "@mui/material";
 
 import { CountrySelectV3 } from "./components/CountrySelectV3";
 import { CitySelectV3 } from "./components/CitySelectV3";
 import { Trigger3 } from "./components/NightsDropdown";
-import {
-
-  Button,
-
-} from "@mui/joy";
+import { Button } from "@mui/joy";
 import DrawerFilters from "./components/Drawer";
 import { Trigger2 } from "./components/CalendarV2";
 import { Trigger4 } from "./components/ChildsDropdownV2";
@@ -21,7 +16,7 @@ import HotelGrid from "./components/HotelGrid";
 import TravelGrid from "./components/TravelGrid";
 import Description from "./components/DescriptionV1";
 import HotelRow from "./components/HotelRow";
-
+import PriceChart from "./components/PriceChart";
 
 function App() {
   const tour = data.GetToursResult.Data.aaData[0]; // Assuming y
@@ -32,7 +27,7 @@ function App() {
         maxWidth="lg"
         sx={{ display: "flex", justifyContent: "center" }}
       >
-        <Stack direction="column">
+        <Stack direction="column" width='100%'>
           <Stack
             spacing={{ xs: 1, sm: 2 }}
             direction={{ xs: "column", sm: "row" }}
@@ -40,7 +35,7 @@ function App() {
             sx={{
               padding: 2,
               borderRadius: "20px 20px 0 20px",
-              boxShadow: "0 10px 35px 0 rgba(5,16,54,.102)",
+              border: "1px solid rgba(5,16,54,.102)",
             }}
           >
             <CitySelectV3 />
@@ -71,7 +66,7 @@ function App() {
                 width: "100%",
                 padding: 2,
                 borderRadius: "0 0 20px 20px",
-                boxShadow: "0 10px 35px 0 rgba(5,16,54,.102)",
+                border: "1px solid rgba(5,16,54,.102)",
               }}
             >
               <Trigger3 />
@@ -80,12 +75,14 @@ function App() {
               <MealTypesDropdown />
             </Stack>
           </Box>
-          <Box sx={{ mt: 10 }}>
-              <HotelRow/>
-            <HotelGrid/>
-           
-          
-
+       
+          <Stack sx={{ mt: 2 }} gap={2}>
+          <PriceChart/>
+            <HotelRow />
+            <HotelRow />
+            <HotelRow />
+            <HotelRow />
+            <HotelRow />
             {/* <Card>
       <CardMedia
         component="img"
@@ -126,7 +123,7 @@ function App() {
         </Typography>
       </CardContent>
     </Card> */}
-          </Box>
+          </Stack>
         </Stack>
       </Container>
     </>

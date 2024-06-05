@@ -1,86 +1,137 @@
-import React from 'react';
-import { Bar } from 'react-chartjs-2';
-import { Box, Typography } from '@mui/material';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
+import React, { useState } from 'react';
+import { Box, Stack, Tooltip, Typography } from '@mui/joy';
+import { styled } from '@mui/system';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+interface DataPoint {
+  date: string;
+  price: number;
+}
 
-const data = {
-  labels: [
-    '28', '29', '30', '31', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
-    '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24',
-    '25', '26', '27', '28', '29', '30', '1', '2', '3', '4', '5', '6', '7', '8'
-  ],
-  datasets: [
-    {
-      label: 'Цена',
-      data: [
-        10, 20, 15, 30, 25, 40, 35, 50, 45, 60, 55, 70, 65, 80, 75, 90, 85, 100,
-        95, 110, 105, 120, 115, 130, 125, 140, 135, 150, 145, 160, 155, 170, 165, 180,
-        175, 190, 185, 200, 195, 210, 205, 220, 215, 230
-      ],
-      backgroundColor: 'rgba(54, 162, 235, 0.6)',
-      borderColor: 'rgba(54, 162, 235, 1)',
-      borderWidth: 1,
-    },
-  ],
-};
+function generateMockData(startDate: string, numDays: number, minPrice: number): DataPoint[] {
+  const data: DataPoint[] = [];
+  const start = new Date(startDate);
 
-const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      display: false,
-    },
-    
-    title: {
-      display: true,
-      text: 'График низких цен на туры в Египет для 2 взрослых с вылетом из Нижнего на 7 ночей',
-    },
+  for (let i = 0; i < numDays; i++) {
+    const currentDate = new Date(start);
+    currentDate.setDate(start.getDate() + i);
+
+    const dateStr = currentDate.toISOString().split('T')[0];
+    const price = (Math.random() * 100).toFixed(2);
+    const finalPrice = Math.max(parseFloat(price), minPrice);
+
+    data.push({ date: dateStr, price: finalPrice });
+  }
+
+  return data;
+}
+
+const twoMonthsData = generateMockData('2024-04-01', 60, 10); // Ensure minimum price is 10
+const minPrice = Math.min(...twoMonthsData.map(data => data.price));
+
+const Bar = styled('div')(({ selected, isMinPrice }) => ({
+  
+  cursor: 'pointer',
+  
+  width: '25px',
+  borderRadius: '4px',
+  backgroundColor: isMinPrice ? 'green' : selected ? 'var(--joy-palette-primary-solidBg)' : 'var(--joy-palette-primary-softBg)',
+  transition: 'background-color 0.3s ease',
+  '&:hover': {
+    backgroundColor: isMinPrice ? 'darkgreen' : 'var(--joy-palette-primary-softHoverBg)',
   },
-  scales: {
-    x: {
-        grid: {
-            display: false
-        },
-      title: {
-        display: true,
-        text: 'Май 24 - Июль 24',
-      },
-    },
-    y: {
-        grid: {
-            display: false
-        },
-      title: {
-        display: true,
-        text: 'Цена',
-      },
-    },
-  },
-};
+}));
+
+const PriceBox = styled('div')({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: '4px',
+  alignItems: 'flex-end',
+  position: 'relative',
+
+  paddingBottom: '10px',
+  
+  height: 'auto',
+  scrollbarWidth: 'none',
+  width: '100%', // Ensure the container takes the full width of the parent
+});
+
+const Divider = styled('div')({
+  width: '2px',
+  height: '10px',
+  backgroundColor: 'var(--joy-palette-neutral-softBg)',
+  position: 'absolute',
+  bottom: '-10px',
+});
 
 const PriceChart = () => {
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+
+  const handleClick = (date: string) => {
+    setSelectedDate(date);
+  };
+
+  const getMonthLabel = (date: string) => {
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const monthIndex = new Date(date).getMonth();
+    return monthNames[monthIndex];
+  };
+
+  const monthDividers = twoMonthsData.reduce((acc, dataPoint, index) => {
+    const currentMonth = new Date(dataPoint.date).getMonth();
+    if (acc.prevMonth !== currentMonth) {
+      acc.dividers.push({ index, month: getMonthLabel(dataPoint.date) });
+      acc.prevMonth = currentMonth;
+    }
+    return acc;
+  }, { prevMonth: -1, dividers: [] });
+
   return (
-    <Box sx={{ padding: 3 }}>
-     
-      <Bar data={data} options={options} />
+    <>
+    <Box sx={{ overflowX: 'auto', maxWidth: '100%', height: '190px', px:4 , scrollbarWidth: 'thin', scrollbarColor: 'var(--joy-palette-primary-solidBg)' }}> {/* Ensure parent container is scrollable */}
+      <PriceBox>
+        {twoMonthsData.map((dataPoint, i) => (
+          <Stack key={dataPoint.date} justifyContent="center" alignItems="center" sx={{  borderBottom: '2px solid var(--joy-palette-neutral-softBg)',}}>
+             <Tooltip title={<>
+             <Typography level='body-xs' textColor="background.popup">
+             Date: {dataPoint.date},
+             </Typography>
+             <Typography level='body-xs' textColor="background.popup">
+             Price: {dataPoint.price}
+              </Typography>
+             </>}>
+            <Bar
+              selected={selectedDate === dataPoint.date}
+              isMinPrice={dataPoint.price === minPrice}
+              onClick={() => handleClick(dataPoint.date)}
+              sx={{ height: `${dataPoint.price}px` }}
+            />
+            </Tooltip>
+            <Typography level="body-xs">{new Date(dataPoint.date).getDate()}</Typography>
+            {monthDividers.dividers.some(divider => divider.index === i) && (
+              <Divider style={{ left: `${i * 29}px` }} />
+            )}
+          </Stack>
+        ))}
+      </PriceBox>
+      <Box sx={{ position: 'relative', mt: 1, width: `${twoMonthsData.length * 29}px` }}>
+        {monthDividers.dividers.map((divider, index) => (
+          <Typography
+            key={index}
+            level="body-sm"
+            sx={{ position: 'absolute', left: `${divider.index * 29}px`, transform: 'translateX(-50%)' }}
+          >
+            {divider.month}
+          </Typography>
+        ))}
+      </Box>
+    
     </Box>
+      {selectedDate && (
+        <Typography variant="h6" sx={{ mt: 2 }}>
+          Selected Date: {selectedDate}
+        </Typography>
+      )}
+    </>
   );
 };
 

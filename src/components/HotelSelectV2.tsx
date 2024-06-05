@@ -253,7 +253,7 @@ export function Trgger5() {
       <Button
         aria-describedby={id}
         sx={{}}
-        variant="outlined"
+        variant="solid"
         onClick={handleClick}
       >
         Выберите курорт
