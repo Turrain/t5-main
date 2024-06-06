@@ -16,7 +16,7 @@ function generateMockData(startDate: string, numDays: number, minPrice: number):
     currentDate.setDate(start.getDate() + i);
 
     const dateStr = currentDate.toISOString().split('T')[0];
-    const price = (Math.random() * 100).toFixed(2);
+    const price = (Math.random() * 100).toFixed(1);
     const finalPrice = Math.max(parseFloat(price), minPrice);
 
     data.push({ date: dateStr, price: finalPrice });
@@ -33,7 +33,7 @@ const Bar = styled('div')(({ selected, isMinPrice }) => ({
   cursor: 'pointer',
   
   width: '25px',
-  borderRadius: '4px',
+  borderRadius: '4px 4px 0 0 ',
   backgroundColor: isMinPrice ? 'green' : selected ? 'var(--joy-palette-primary-solidBg)' : 'var(--joy-palette-primary-softBg)',
   transition: 'background-color 0.3s ease',
   '&:hover': {
@@ -58,7 +58,7 @@ const PriceBox = styled('div')({
 const Divider = styled('div')({
   width: '2px',
   height: '10px',
-  backgroundColor: 'var(--joy-palette-neutral-softBg)',
+  backgroundColor: 'var(--joy-palette-primary-softBg)',
   position: 'absolute',
   bottom: '-10px',
 });
@@ -71,7 +71,7 @@ const PriceChart = () => {
   };
 
   const getMonthLabel = (date: string) => {
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const monthNames = ["Янв", "Фев", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
     const monthIndex = new Date(date).getMonth();
     return monthNames[monthIndex];
   };
@@ -90,7 +90,7 @@ const PriceChart = () => {
     <Box sx={{ overflowX: 'auto', maxWidth: '100%', height: '190px', px:4 , scrollbarWidth: 'thin', scrollbarColor: 'var(--joy-palette-primary-solidBg)' }}> {/* Ensure parent container is scrollable */}
       <PriceBox>
         {twoMonthsData.map((dataPoint, i) => (
-          <Stack key={dataPoint.date} justifyContent="center" alignItems="center" sx={{  borderBottom: '2px solid var(--joy-palette-neutral-softBg)',}}>
+          <Stack key={dataPoint.date} justifyContent="center" alignItems="center" sx={{  borderBottom: '2px solid var(--joy-palette-primary-softBg)',}}>
              <Tooltip title={<>
              <Typography level='body-xs' textColor="background.popup">
              Date: {dataPoint.date},
@@ -127,7 +127,7 @@ const PriceChart = () => {
     
     </Box>
       {selectedDate && (
-        <Typography variant="h6" sx={{ mt: 2 }}>
+        <Typography level="body-xs" >
           Selected Date: {selectedDate}
         </Typography>
       )}

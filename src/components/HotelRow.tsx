@@ -38,6 +38,7 @@ import { Rating } from "@mui/material";
 import Description from "./DescriptionV1";
 import React from "react";
 import MapComponent from "./MapComponen";
+import HotelTours from "./HotelTours";
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const HotelRowTours = () => {
@@ -81,7 +82,7 @@ const HotelRowTours = () => {
             </Stack>
           </Stack>
 
-          <Button variant="outlined">264 854 T</Button>
+          <Button variant="soft">264 854 T</Button>
         </Stack>
       </CardContent>
     </Card>
@@ -123,8 +124,9 @@ const HotelRow = () => {
     <>
       <Card
         variant="plain"
-        orientation="horizontal"
+
         sx={{
+          flexDirection: {xs: 'column', sm: "row"},
           margin: "auto",
           boxShadow: 3,
           p: 0.5,
@@ -132,7 +134,7 @@ const HotelRow = () => {
         }}
       >
         <CardOverflow sx={{ p: 0 }}>
-          <Box sx={{ position: "relative", width: 480 }}>
+          <Box sx={{ position: "relative",}}>
             <AutoPlaySwipeableViews
               axis="x"
               index={activeStep}
@@ -223,9 +225,10 @@ const HotelRow = () => {
             </Typography>
           </ShowMoreContainer>
           <Stack
-            direction="row"
-            justifyContent="space-between"
+         
+              
             alignItems="center"
+            sx={{ justifyContent:{xs: 'unset',sm: "space-between" }, flexDirection: {xs: "column", sm: "row"}, gap:2}}
             p={1}
           >
             <Stack alignItems="left">
@@ -234,7 +237,7 @@ const HotelRow = () => {
                 РУБ/НОМЕР
               </Typography>
             </Stack>
-            <Stack direction="row" gap={2}>
+            <Stack direction="row"  gap={2}>
               <Button
                 variant="plain"
                 sx={{
@@ -320,7 +323,7 @@ const HotelRow = () => {
       )}
       {showPage && (
         <Sheet variant="soft" sx={{ p: 1, borderRadius: 10, mb: 2 }}>
-          <Typography>Дополнительная информация о странице</Typography>
+          <HotelTours/>
         </Sheet>
       )}
 

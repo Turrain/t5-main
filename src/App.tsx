@@ -1,5 +1,5 @@
 import Stack from "@mui/material/Stack";
-import { Box, Container, Divider } from "@mui/material";
+import { Box, Container, Divider, Pagination } from "@mui/material";
 
 import { CountrySelectV3 } from "./components/CountrySelectV3";
 import { CitySelectV3 } from "./components/CitySelectV3";
@@ -17,10 +17,16 @@ import TravelGrid from "./components/TravelGrid";
 import Description from "./components/DescriptionV1";
 import HotelRow from "./components/HotelRow";
 import PriceChart from "./components/PriceChart";
+import { useState } from "react";
 
 function App() {
   const tour = data.GetToursResult.Data.aaData[0]; // Assuming y
   console.log(tour);
+  const [page, setPage] = useState(1);
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
+
   return (
     <>
       <Container
@@ -76,13 +82,15 @@ function App() {
             </Stack>
           </Box>
        
-          <Stack sx={{ mt: 2 }} gap={2}>
+          <Stack sx={{ mt: 2 }} gap={2} justifyContent="center">
           <PriceChart/>
             <HotelRow />
             <HotelRow />
             <HotelRow />
             <HotelRow />
             <HotelRow />
+            Page: {page}
+            <Pagination count={10} page={page} onChange={handleChange} sx={{"&>ul": {justifyContent:"center"}}} />
             {/* <Card>
       <CardMedia
         component="img"
