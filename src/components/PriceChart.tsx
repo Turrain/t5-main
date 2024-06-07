@@ -37,7 +37,7 @@ const Bar = styled('div')(({ selected, isMinPrice }) => ({
   backgroundColor: isMinPrice ? 'green' : selected ? 'var(--joy-palette-primary-solidBg)' : 'var(--joy-palette-primary-softBg)',
   transition: 'background-color 0.3s ease',
   '&:hover': {
-    backgroundColor: isMinPrice ? 'darkgreen' : 'var(--joy-palette-primary-softHoverBg)',
+    backgroundColor: isMinPrice ? 'darkgreen' : 'var(--joy-palette-primary-solidHoverBg)',
   },
 }));
 

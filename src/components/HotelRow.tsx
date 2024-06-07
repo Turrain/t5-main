@@ -4,6 +4,7 @@ import {
   CalendarToday,
   Check,
   Circle,
+  Close,
   Favorite,
   FlightLand,
   FlightTakeoff,
@@ -28,18 +29,147 @@ import {
   Sheet,
   Divider,
   Badge,
+  Modal,
+  Drawer,
 } from "@mui/joy";
-
+import { styled } from "@mui/system";
 import { SetStateAction, useState } from "react";
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
 import { ShowMoreContainer } from "./HotelInfo";
-import { Rating } from "@mui/material";
+import { Rating, useMediaQuery } from "@mui/material";
 import Description from "./DescriptionV1";
 import React from "react";
 import MapComponent from "./MapComponen";
 import HotelTours from "./HotelTours";
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
+import { DraggableCore } from 'react-draggable';
+
+const YourComponent = () => {
+  const [open, setOpen] = useState(true); // Control modal state
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const [drawerHeight, setDrawerHeight] = useState(window.innerHeight * 0.6);
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleDrag = (e, data) => {
+    let clientY;
+    if (e.type === 'touchmove') {
+      clientY = e.touches[0].clientY;
+    } else {
+      clientY = e.clientY;
+    }
+    const newHeight = window.innerHeight - clientY;
+    setDrawerHeight(newHeight)
+  };
+  return (
+    <>
+      {open &&
+        (isSmallScreen ? (
+          <Drawer
+            anchor="bottom"
+            open={open}
+            onClose={handleClose}
+            sx={{
+              "& > .MuiDrawer-content": {
+                borderRadius: "18px",
+                height: drawerHeight,
+                transition: '1s all '
+              },
+              maxHeight: "90dvh",
+              "--Drawer-transitionDuration": open ? "0.4s" : "0.2s",
+              "--Drawer-transitionFunction": open
+                ? "cubic-bezier(0.79,0.14,0.15,0.86)"
+                : "cubic-bezier(0.77,0,0.18,1)",
+            }}
+          >
+              <DraggableCore  onDrag={handleDrag}>
+            <ModalHeader>
+          
+                <Puller />
+           
+              <IconButton onClick={handleClose}>
+                <Close />
+              </IconButton>
+              <Typography id="iphone-drawer-title" level="h3">
+                Tours
+              </Typography>
+            </ModalHeader>
+            </DraggableCore >
+            <ModalContent
+              sx={{
+                overflow: "auto",
+                maxHeight: "100%",
+              
+              }}
+            >
+              <HotelRowTours />
+              <HotelRowTours />
+              <HotelRowTours />
+              <HotelRowTours />
+            </ModalContent>
+          </Drawer>
+        ) : (
+          <Sheet
+            variant="soft"
+            sx={{
+              p: 1,
+              borderRadius: 10,
+              mb: 2,
+              display: "flex",
+              gap: 1,
+              flexDirection: "column",
+            }}
+          >
+            <HotelRowTours />
+            <HotelRowTours />
+            <HotelRowTours />
+            <HotelRowTours />
+          </Sheet>
+        ))}
+     
+    </>
+  );
+};
+const Puller = styled("div")(({ theme }) => ({
+  width: 60,
+  height: 6,
+  backgroundColor: "#ddd",
+  borderRadius: 3,
+  position: "absolute",
+  top: 8,
+  left: "calc(50% -  30px)",
+}));
+const StyledBox = styled(Box)(({ theme }) => ({
+  width: "100%",
+  maxWidth: 600,
+  backgroundColor: theme.palette.background,
+  borderRadius: "16px 16px 0 0",
+
+  padding: theme.spacing(2, 2, 2),
+  display: "flex",
+  flexDirection: "column",
+  outline: "none",
+}));
+
+const ModalHeader = styled(Box)({
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  borderBottom: "1px solid #ddd",
+  paddingBottom: "8px",
+  marginBottom: "16px",
+});
+
+const ModalContent = styled(Box)({
+  display: "flex",
+  flexDirection: "column",
+  gap: "8px",
+});
 
 const HotelRowTours = () => {
   return (
@@ -53,7 +183,11 @@ const HotelRowTours = () => {
       }}
     >
       <CardContent>
-        <Stack direction="row" justifyContent="space-between">
+        <Stack
+          sx={{ flexDirection: { xs: "column", sm: "row" } }}
+          gap={1}
+          justifyContent="space-between"
+        >
           <Stack>
             <Typography level="body-xs">07 июня (пт) - 15 июня (сб)</Typography>
             <Typography level="body-xs"> 8 ночей</Typography>
@@ -124,9 +258,8 @@ const HotelRow = () => {
     <>
       <Card
         variant="plain"
-
         sx={{
-          flexDirection: {xs: 'column', sm: "row"},
+          flexDirection: { xs: "column", md: "row" },
           margin: "auto",
           boxShadow: 3,
           p: 0.5,
@@ -134,7 +267,7 @@ const HotelRow = () => {
         }}
       >
         <CardOverflow sx={{ p: 0 }}>
-          <Box sx={{ position: "relative",}}>
+          <Box sx={{ position: "relative" }}>
             <AutoPlaySwipeableViews
               axis="x"
               index={activeStep}
@@ -205,7 +338,7 @@ const HotelRow = () => {
             <Typography level="h3" fontWeight={700} flex="1">
               Santana Hotel 3*
             </Typography>
-            <Chip color="primary" sx={{width:'110px'}}>
+            <Chip color="primary" sx={{ width: "110px" }}>
               <Chip variant="solid" color="primary" sx={{ mr: 1 }}>
                 9.8
               </Chip>
@@ -225,10 +358,12 @@ const HotelRow = () => {
             </Typography>
           </ShowMoreContainer>
           <Stack
-         
-              
             alignItems="center"
-            sx={{ justifyContent:{xs: 'unset',sm: "space-between" }, flexDirection: {xs: "column", sm: "row"}, gap:2}}
+            sx={{
+              justifyContent: { xs: "unset", sm: "space-between" },
+              flexDirection: { xs: "column", sm: "row" },
+              gap: 2,
+            }}
             p={1}
           >
             <Stack alignItems="left">
@@ -237,7 +372,7 @@ const HotelRow = () => {
                 РУБ/НОМЕР
               </Typography>
             </Stack>
-            <Stack direction="row"  gap={2}>
+            <Stack direction="row" gap={2}>
               <Button
                 variant="plain"
                 sx={{
@@ -250,19 +385,17 @@ const HotelRow = () => {
                 На карте
               </Button>
               <Badge badgeContent={99} size="sm">
-
-            
-              <Button
-                variant="plain"
-                sx={{
-                  backgroundColor: showTours
-                    ? "var(--joy-palette-primary-plainHoverBg)"
-                    : "",
-                }}
-                onClick={() => setShowTours((prev) => !prev)}
-              >
-                Туры
-              </Button>
+                <Button
+                  variant="plain"
+                  sx={{
+                    backgroundColor: showTours
+                      ? "var(--joy-palette-primary-plainHoverBg)"
+                      : "",
+                  }}
+                  onClick={() => setShowTours((prev) => !prev)}
+                >
+                  Туры
+                </Button>
               </Badge>
               <Button
                 variant="plain"
@@ -298,24 +431,7 @@ const HotelRow = () => {
           </Stack>
         </CardContent>
       </Card>
-      {showTours && (
-        <Sheet
-          variant="soft"
-          sx={{
-            p: 1,
-            borderRadius: 10,
-            mb: 2,
-            display: "flex",
-            gap: 1,
-            flexDirection: "column",
-          }}
-        >
-          <HotelRowTours />
-          <HotelRowTours />
-          <HotelRowTours />
-          <HotelRowTours />
-        </Sheet>
-      )}
+      {showTours && <YourComponent />}
       {showMap && (
         <Sheet variant="soft" sx={{ p: 1, borderRadius: 10, mb: 2 }}>
           <MapComponent />
@@ -323,7 +439,7 @@ const HotelRow = () => {
       )}
       {showPage && (
         <Sheet variant="soft" sx={{ p: 1, borderRadius: 10, mb: 2 }}>
-          <HotelTours/>
+          <HotelTours />
         </Sheet>
       )}
 
